@@ -1,6 +1,6 @@
 <template>
     
-    <p>welcome to the login page</p>
+    <p>welcome to the default</p>
 </template>
 
 

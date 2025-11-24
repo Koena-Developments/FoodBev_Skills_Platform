@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj": {}
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj": {
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj",
+        "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj",
         "projectName": "FoodBev.API",
-        "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj",
-        "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\obj\\",
+        "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj",
+        "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -26,11 +26,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
-                "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
+              "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
+                "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
               },
-              "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
-                "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj"
+              "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
+                "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj"
               }
             }
           }
@@ -97,17 +97,17 @@
         }
       }
     },
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj",
+        "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj",
         "projectName": "FoodBev.Core.Application",
-        "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj",
-        "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\obj\\",
+        "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj",
+        "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -119,8 +119,8 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
-                "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj"
+              "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
+                "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj"
               }
             }
           }
@@ -174,17 +174,17 @@
         }
       }
     },
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
         "projectName": "FoodBev.Core.Domain",
-        "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
-        "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
+        "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -239,17 +239,17 @@
         }
       }
     },
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj",
+        "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj",
         "projectName": "FoodBev.Infrastructure.Persistence",
-        "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj",
-        "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\obj\\",
+        "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj",
+        "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
@@ -261,11 +261,11 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
-              "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
-                "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
+              "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
+                "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
               },
-              "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
-                "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj"
+              "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
+                "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj"
               }
             }
           }

@@ -26,7 +26,6 @@ namespace FoodBev.Core.Domain.Entities
         
         public string CV_File_Ref { get; set; } = string.Empty;
 
-        // 👇 ADD MISSING FIELDS REQUIRED BY SetaAdminService
 
         // Admin & Compliance Fields
         public string? AdminNotes { get; set; }

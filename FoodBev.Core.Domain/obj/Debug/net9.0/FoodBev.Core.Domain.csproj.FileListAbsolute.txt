@@ -11,3 +11,16 @@ C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\ref
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.pdb
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\ref\FoodBev.Core.Domain.dll
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.sourcelink.json
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\bin\Debug\net9.0\FoodBev.Core.Domain.deps.json
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\bin\Debug\net9.0\FoodBev.Core.Domain.dll
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\bin\Debug\net9.0\FoodBev.Core.Domain.pdb
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.csproj.AssemblyReference.cache
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.AssemblyInfoInputs.cache
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.AssemblyInfo.cs
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.csproj.CoreCompileInputs.cache
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.sourcelink.json
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.dll
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\refint\FoodBev.Core.Domain.dll
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.pdb
+C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\ref\FoodBev.Core.Domain.dll
