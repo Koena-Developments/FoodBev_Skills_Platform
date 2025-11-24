@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FoodBev.Core.Application")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73f0e9a3d231d7d0304e123f9494cba7d50d865e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9556c15756b1a82e1b66020dbed792180a12dd50")]
 [assembly: System.Reflection.AssemblyProductAttribute("FoodBev.Core.Application")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FoodBev.Core.Application")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
