@@ -10,3 +10,4 @@ C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\Foo
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\refint\FoodBev.Core.Domain.dll
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.pdb
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\ref\FoodBev.Core.Domain.dll
+C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Domain\obj\Debug\net9.0\FoodBev.Core.Domain.sourcelink.json

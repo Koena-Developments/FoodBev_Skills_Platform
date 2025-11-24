@@ -13,3 +13,4 @@ C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Application\obj\Debug\net9.
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Application\obj\Debug\net9.0\refint\FoodBev.Core.Application.dll
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Application\obj\Debug\net9.0\FoodBev.Core.Application.pdb
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Application\obj\Debug\net9.0\ref\FoodBev.Core.Application.dll
+C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Core.Application\obj\Debug\net9.0\FoodBev.Core.Application.sourcelink.json

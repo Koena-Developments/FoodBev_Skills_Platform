@@ -17,3 +17,4 @@ C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Infrastructure.Persistence\obj\D
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Infrastructure.Persistence\obj\Debug\net9.0\FoodBev.Infrastructure.Persistence.pdb
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Infrastructure.Persistence\obj\Debug\net9.0\FoodBev.Infrastructure.Persistence.genruntimeconfig.cache
 C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Infrastructure.Persistence\obj\Debug\net9.0\ref\FoodBev.Infrastructure.Persistence.dll
+C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.Infrastructure.Persistence\obj\Debug\net9.0\FoodBev.Infrastructure.Persistence.sourcelink.json
