@@ -36,6 +36,7 @@ namespace FoodBev.Application.DTOs.ApplicationManagement
         public ApplicationStatus Status { get; set; }
         public DateTime? InterviewDate { get; set; }
         public string InterviewVenue { get; set; }
+        public InterviewResponse InterviewResponse { get; set; }
         public bool HasSkillsForm { get; set; }
     }
     

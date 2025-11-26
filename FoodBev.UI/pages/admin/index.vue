@@ -99,15 +99,13 @@
       </div>
     </div>
 
-    <!-- World Map Section -->
+    <!-- ✅ South African Map Section (Interactive with ECharts) -->
     <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-      <h2 class="text-lg font-semibold mb-4">Student Demographics by Region</h2>
-      <div class="h-64 bg-gray-50 rounded flex items-center justify-center">
-        <div class="text-center">
-          <i class="fas fa-globe-americas text-4xl text-gray-400 mb-2"></i>
-          <p class="text-gray-500">World map placeholder — will show student density by country/region</p>
-        </div>
+      <h2 class="text-lg font-semibold mb-4">Student Demographics by Province</h2>
+      <div class="h-64 bg-gray-50 rounded">
+        <v-chart :option="chartOptions" autoresize />
       </div>
+      <p class="text-xs text-gray-500 mt-2 text-center">Hover over provinces to view student counts</p>
     </div>
 
     <!-- Recent Activity Table -->
@@ -146,9 +144,161 @@
 </template>
 
 <script setup>
-// No script needed for static page
+import { ref } from 'vue'
+import VChart from 'vue-echarts'
+import * as echarts from 'echarts'
+
+// ===== South Africa GeoJSON (simplified for demo) =====
+const saGeo = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: { name: 'Gauteng' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[27.8, -25.8], [28.5, -25.8], [28.5, -26.5], [27.8, -26.5], [27.8, -25.8]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Western Cape' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[18.5, -33.5], [19.5, -33.5], [19.5, -34.5], [18.5, -34.5], [18.5, -33.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'KwaZulu-Natal' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[30.5, -28.5], [31.5, -28.5], [31.5, -29.5], [30.5, -29.5], [30.5, -28.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Eastern Cape' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[25.5, -32.5], [26.5, -32.5], [26.5, -33.5], [25.5, -33.5], [25.5, -32.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Free State' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[27.5, -28.5], [28.5, -28.5], [28.5, -29.5], [27.5, -29.5], [27.5, -28.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Northern Cape' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[20.5, -28.5], [21.5, -28.5], [21.5, -29.5], [20.5, -29.5], [20.5, -28.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Limpopo' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[28.5, -23.5], [29.5, -23.5], [29.5, -24.5], [28.5, -24.5], [28.5, -23.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'Mpumalanga' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[29.5, -25.5], [30.5, -25.5], [30.5, -26.5], [29.5, -26.5], [29.5, -25.5]]],
+      },
+    },
+    {
+      type: 'Feature',
+      properties: { name: 'North West' },
+      geometry: {
+        type: 'Polygon',
+        coordinates: [[[26.5, -26.5], [27.5, -26.5], [27.5, -27.5], [26.5, -27.5], [26.5, -26.5]]],
+      },
+    },
+  ],
+}
+
+// Register the map with ECharts
+echarts.registerMap('SouthAfrica', saGeo)
+
+// Mock student data (replace with API later)
+const studentData = [
+  { name: 'Gauteng', value: 850 },
+  { name: 'Western Cape', value: 620 },
+  { name: 'KwaZulu-Natal', value: 580 },
+  { name: 'Eastern Cape', value: 320 },
+  { name: 'Free State', value: 180 },
+  { name: 'Northern Cape', value: 90 },
+  { name: 'Limpopo', value: 210 },
+  { name: 'Mpumalanga', value: 290 },
+  { name: 'North West', value: 240 },
+]
+
+// Chart options
+const chartOptions = ref({
+  tooltip: {
+    trigger: 'item',
+    formatter: '{b}: {c} students',
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    textStyle: { color: '#fff' },
+  },
+  visualMap: {
+    min: 0,
+    max: 1000,
+    text: ['High', 'Low'],
+    realtime: false,
+    calculable: true,
+    inRange: {
+      color: ['#e6f7ff', '#0050b3'],
+    },
+    orient: 'horizontal',
+    left: 'center',
+    bottom: '5px',
+  },
+  series: [
+    {
+      type: 'map',
+      map: 'SouthAfrica',
+      roam: false,
+      label: {
+        show: true,
+        fontSize: 10,
+        color: '#333',
+      },
+      itemStyle: {
+        areaColor: '#f0f0f0',
+        borderColor: '#666',
+        borderWidth: 1,
+      },
+      emphasis: {
+        label: {
+          show: true,
+          fontSize: 12,
+          fontWeight: 'bold',
+        },
+        itemStyle: {
+          areaColor: '#0050b3',
+        },
+      },
+       studentData,
+    },
+  ],
+})
 </script>
 
 <style scoped>
-/* Optional: Add any component-specific styles here */
+/* Ensure ECharts chart fills container */
+.v-chart {
+  width: 100%;
+  height: 100%;
+}
 </style>

@@ -5,13 +5,14 @@ namespace FoodBev.Core.Domain.Enums
     /// </summary>
     public enum ApplicationStatus
     {
-        Submitted,      // Initial submission by candidate
+        Applied,        // Initial submission by candidate (renamed from Submitted)
         Saved,          // Draft application
-        Rejected,       // Application was rejected
         Shortlisted,    // Candidate is being considered
-        Interview_Now,  // Candidate is scheduled for interview
+        InterviewScheduled,  // Interview has been scheduled by employer
+        InterviewAccepted,  // Candidate accepted the interview
+        InterviewDeclined,  // Candidate declined the interview
+        Rejected,       // Application was rejected
         Hired,          // Candidate was successful and hired
         Registered,     // Candidate was registered with the SETA
-
     }
 }

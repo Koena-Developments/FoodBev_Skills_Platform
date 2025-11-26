@@ -35,6 +35,11 @@ namespace FoodBev.Application.Interfaces
         Task<IEnumerable<JobPostingDto>> GetMatchingJobsForCandidateAsync(int candidateId);
         
         /// <summary>
+        /// Gets jobs matching a candidate by their user ID (for authenticated candidates).
+        /// </summary>
+        Task<IEnumerable<JobPostingDto>> GetMatchingJobsForCandidateByUserIdAsync(string userId);
+        
+        /// <summary>
         /// Deletes a job posting.
         /// </summary>
         Task<bool> DeleteJobPostingAsync(int jobId);

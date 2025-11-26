@@ -17,11 +17,12 @@ namespace FoodBev.Core.Domain.Entities
         public int CandidateID { get; set; }
         
         public DateTime DateApplied { get; set; } = DateTime.UtcNow;
-        public ApplicationStatus Status { get; set; } = ApplicationStatus.Submitted;
+        public ApplicationStatus Status { get; set; } = ApplicationStatus.Applied;
         
         // Interview Details
         public DateTime? InterviewDate { get; set; }
         public string InterviewVenue { get; set; } = string.Empty;
+        public InterviewResponse InterviewResponse { get; set; } = InterviewResponse.None;
         public string CandidateAvailability { get; set; } = string.Empty;
         
         public string CV_File_Ref { get; set; } = string.Empty;

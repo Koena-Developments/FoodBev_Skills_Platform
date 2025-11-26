@@ -2,6 +2,7 @@ using FoodBev.Application.DTOs.ProfileManagement;
 using FoodBev.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -59,7 +60,18 @@ namespace FoodBev.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                // Return detailed validation errors
+                var errors = ModelState
+                    .Where(x => x.Value?.Errors.Count > 0)
+                    .ToDictionary(
+                        kvp => kvp.Key,
+                        kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToArray()
+                    );
+                return BadRequest(new { 
+                    type = "ValidationError",
+                    title = "One or more validation errors occurred.",
+                    errors = errors 
+                });
             }
 
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;

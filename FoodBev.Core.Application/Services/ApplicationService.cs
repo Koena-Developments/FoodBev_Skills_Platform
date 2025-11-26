@@ -44,6 +44,7 @@ namespace FoodBev.Application.Services
                 Status = application.Status,
                 InterviewDate = application.InterviewDate,
                 InterviewVenue = application.InterviewVenue,
+                InterviewResponse = application.InterviewResponse,
                 HasSkillsForm = form != null // Indicate if the form linked to the application exists
             };
         }
@@ -83,7 +84,7 @@ namespace FoodBev.Application.Services
                 CandidateID = dto.CandidateID,
                 CV_File_Ref = dto.CV_File_Ref,
                 CandidateAvailability = dto.CandidateAvailability,
-                Status = ApplicationStatus.Submitted,
+                Status = ApplicationStatus.Applied,
             };
 
             // This relies on the unique index on (JobID, CandidateID) in the DbContext to prevent duplicates
@@ -195,6 +196,85 @@ namespace FoodBev.Application.Services
             await _unitOfWork.CompleteAsync();
             
             return true;
+        }
+
+        public async Task<bool> ScheduleInterviewAsync(int applicationId, DateTime interviewDate, string interviewVenue)
+        {
+            var application = await _unitOfWork.Applications.GetByIdAsync(applicationId);
+            if (application == null)
+            {
+                return false;
+            }
+
+            application.InterviewDate = interviewDate;
+            application.InterviewVenue = interviewVenue;
+            application.Status = ApplicationStatus.InterviewScheduled;
+            application.InterviewResponse = InterviewResponse.None; // Reset response
+            
+            _unitOfWork.Applications.Update(application);
+            await _unitOfWork.CompleteAsync();
+            
+            return true;
+        }
+
+        public async Task<bool> UpdateInterviewResponseAsync(int applicationId, InterviewResponse response)
+        {
+            var application = await _unitOfWork.Applications.GetByIdAsync(applicationId);
+            if (application == null || application.Status != ApplicationStatus.InterviewScheduled)
+            {
+                return false;
+            }
+
+            application.InterviewResponse = response;
+            
+            // Update status based on response
+            if (response == InterviewResponse.Accepted)
+            {
+                application.Status = ApplicationStatus.InterviewAccepted;
+            }
+            else if (response == InterviewResponse.Declined)
+            {
+                application.Status = ApplicationStatus.InterviewDeclined;
+            }
+            
+            _unitOfWork.Applications.Update(application);
+            await _unitOfWork.CompleteAsync();
+            
+            return true;
+        }
+
+        public async Task<IEnumerable<ApplicationSummaryDto>> GetFilteredApplicantsForJobAsync(int jobId, string? ofoCode = null, string? employmentStatus = null, string? province = null)
+        {
+            var applications = await _unitOfWork.Applications.GetApplicationsByJobAsync(jobId);
+            
+            // Apply filters
+            var filtered = applications.AsQueryable();
+            
+            if (!string.IsNullOrWhiteSpace(ofoCode))
+            {
+                // Filter by candidate's OFO code
+                filtered = filtered.Where(a => a.Candidate.OFO_Code == ofoCode);
+            }
+            
+            if (!string.IsNullOrWhiteSpace(employmentStatus))
+            {
+                // Filter by candidate's employment status
+                filtered = filtered.Where(a => a.Candidate.EmploymentStatus == employmentStatus);
+            }
+            
+            if (!string.IsNullOrWhiteSpace(province))
+            {
+                // Filter by candidate's province
+                filtered = filtered.Where(a => a.Candidate.Province == province);
+            }
+            
+            var dtos = new List<ApplicationSummaryDto>();
+            foreach (var app in filtered)
+            {
+                dtos.Add(await MapToSummaryDto(app));
+            }
+            
+            return dtos;
         }
     }
 }

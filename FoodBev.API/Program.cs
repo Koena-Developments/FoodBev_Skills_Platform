@@ -2,7 +2,6 @@ using FoodBev.API.Configurations;
 using Microsoft.EntityFrameworkCore;
 using FoodBev.Infrastructure.Persistence.Data;
 using Microsoft.Extensions.Logging;
-using MySqlConnector;
 
 // --- 1. Builder Initialization ---
 var builder = WebApplication.CreateBuilder(args);
@@ -43,22 +42,12 @@ if (app.Environment.IsDevelopment())
             }
             else
             {
-                logger.LogWarning("Cannot connect to database. Please ensure MySQL is running and the connection string is correct.");
+                logger.LogWarning("Cannot connect to database. Please ensure the SQLite database file path is correct.");
             }
             
             // Optional: Seed the database with initial data here if needed
             // await FoodBevDbContextSeed.SeedAsync(dataContext);
         }
-    }
-    catch (MySqlConnector.MySqlException ex) when (ex.InnerException is System.Net.Sockets.SocketException)
-    {
-        // Log migration error with helpful message
-        var logger = app.Services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, 
-            "Failed to connect to MySQL database. " +
-            "Please ensure MySQL is running on localhost:3306. " +
-            "You can start MySQL using: 'net start MySQL' or through the Windows service manager. " +
-            "The application will continue to run, but database operations will fail until MySQL is available.");
     }
     catch (Exception ex)
     {
@@ -69,6 +58,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Enable static file serving for uploaded documents
+app.UseStaticFiles();
 
 // Enable CORS policy (Assuming the policy is named "AllowSpecificOrigin" as per your dependency setup)
 app.UseCors("AllowSpecificOrigin");

@@ -30,6 +30,21 @@ namespace FoodBev.Application.Interfaces
         /// </summary>
         Task<bool> UpdateApplicationStatusAsync(int applicationId, ApplicationStatus newStatus);
         
+        /// <summary>
+        /// Updates application status with interview details (date and venue).
+        /// </summary>
+        Task<bool> ScheduleInterviewAsync(int applicationId, DateTime interviewDate, string interviewVenue);
+        
+        /// <summary>
+        /// Updates candidate's response to interview invitation.
+        /// </summary>
+        Task<bool> UpdateInterviewResponseAsync(int applicationId, InterviewResponse response);
+        
+        /// <summary>
+        /// Gets filtered applicants for a job (by OFO, EmploymentStatus, Province).
+        /// </summary>
+        Task<IEnumerable<ApplicationSummaryDto>> GetFilteredApplicantsForJobAsync(int jobId, string? ofoCode = null, string? employmentStatus = null, string? province = null);
+        
         // --- Skills Programme Form Management ---
 
         /// <summary>

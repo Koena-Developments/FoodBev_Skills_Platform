@@ -25,6 +25,7 @@ namespace FoodBev.API.Controllers
         }
 
         [HttpPost]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> UploadLogo(IFormFile file)
         {
             if (file == null || file.Length == 0)

@@ -6,6 +6,7 @@ using FoodBev.Core.Domain.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System;
 
 namespace FoodBev.Application.Services
 {
@@ -95,7 +96,7 @@ namespace FoodBev.Application.Services
         public async Task<IEnumerable<ApplicationReviewDto>> GetPendingApplicationsAsync()
         {
             // Get applications by status which includes navigation properties
-            var applications = await _unitOfWork.Applications.GetApplicationsByStatusAsync(ApplicationStatus.Submitted);
+            var applications = await _unitOfWork.Applications.GetApplicationsByStatusAsync(ApplicationStatus.Applied);
 
             var reviewList = new List<ApplicationReviewDto>();
             foreach (var app in applications)
@@ -168,6 +169,67 @@ namespace FoodBev.Application.Services
             await _unitOfWork.CompleteAsync();
 
             return await GetApplicationForReviewAsync(applicationId);
+        }
+
+        public async Task<DashboardStatsDto> GetDashboardStatsAsync()
+        {
+            // Get all candidates, applications, and employers
+            var allCandidates = await _unitOfWork.Candidates.GetAllAsync();
+            var allApplications = await _unitOfWork.Applications.GetAllAsync();
+            var allEmployers = await _unitOfWork.Employers.GetAllAsync();
+
+            // Active students (last 24 hours) - TODO: Add LastActiveAt field
+            var activeStudents = allCandidates.Count(); // Placeholder
+
+            // Funded companies
+            var fundedCompanies = allEmployers.Count(e => 
+                !string.IsNullOrWhiteSpace(e.LevyNumber) || 
+                !string.IsNullOrWhiteSpace(e.LNumber) || 
+                !string.IsNullOrWhiteSpace(e.TNumber)
+            );
+
+            return new DashboardStatsDto
+            {
+                TotalStudents = allCandidates.Count(),
+                TotalApplications = allApplications.Count(),
+                ActiveStudents24h = activeStudents,
+                FundedCompanies = fundedCompanies
+            };
+        }
+
+        public async Task<IEnumerable<DemographicsDto>> GetDemographicsByProvinceAsync()
+        {
+            var allCandidates = await _unitOfWork.Candidates.GetAllAsync();
+            
+            return allCandidates
+                .Where(c => !string.IsNullOrWhiteSpace(c.Province))
+                .GroupBy(c => c.Province)
+                .Select(g => new DemographicsDto
+                {
+                    Province = g.Key,
+                    Count = g.Count()
+                })
+                .OrderByDescending(x => x.Count)
+                .ToList();
+        }
+
+        public async Task<IEnumerable<ActivityDto>> GetRecentActivityAsync(int limit = 50)
+        {
+            var allApplications = await _unitOfWork.Applications.GetAllAsync();
+            
+            return allApplications
+                .OrderByDescending(a => a.DateApplied)
+                .Take(limit)
+                .Select(a => new ActivityDto
+                {
+                    Type = "Application",
+                    Date = a.DateApplied,
+                    Description = $"Application {a.ApplicationID} - {a.Status}",
+                    ApplicationId = a.ApplicationID,
+                    CandidateId = a.CandidateID,
+                    JobId = a.JobID
+                })
+                .ToList();
         }
     }
 }

@@ -284,5 +284,17 @@ namespace FoodBev.Application.Services
 
             return await DeleteJobPostingAsync(jobId);
         }
+
+        public async Task<IEnumerable<JobPostingDto>> GetMatchingJobsForCandidateByUserIdAsync(string userId)
+        {
+            // Get candidate by user ID
+            var candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+            if (candidate == null)
+            {
+                return new List<JobPostingDto>();
+            }
+
+            return await GetMatchingJobsForCandidateAsync(candidate.CandidateID);
+        }
     }
 }

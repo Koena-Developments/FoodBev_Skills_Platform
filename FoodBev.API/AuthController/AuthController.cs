@@ -8,7 +8,7 @@ namespace FoodBev.API.Controllers
     /// <summary>
     /// Handles user authentication endpoints: registration, login, and token validation.
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/v1/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {

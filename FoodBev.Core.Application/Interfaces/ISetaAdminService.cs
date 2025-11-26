@@ -52,5 +52,22 @@ namespace FoodBev.Application.Interfaces
         /// Updates the status of an application (e.g., Approved, Rejected, Registered).
         /// </summary>
         Task<ApplicationReviewDto> UpdateApplicationStatusAsync(int applicationId, UpdateApplicationStatusDto dto);
+
+        // --- Dashboard Statistics ---
+
+        /// <summary>
+        /// Gets dashboard statistics (Total Students, Applications, Active Students, Funded Companies).
+        /// </summary>
+        Task<DashboardStatsDto> GetDashboardStatsAsync();
+
+        /// <summary>
+        /// Gets student demographics grouped by province.
+        /// </summary>
+        Task<IEnumerable<DemographicsDto>> GetDemographicsByProvinceAsync();
+
+        /// <summary>
+        /// Gets recent activity feed.
+        /// </summary>
+        Task<IEnumerable<ActivityDto>> GetRecentActivityAsync(int limit = 50);
     }
 }

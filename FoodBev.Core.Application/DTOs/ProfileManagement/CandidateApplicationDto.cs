@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace FoodBev.Application.DTOs.ProfileManagement
 {
@@ -46,10 +47,21 @@ namespace FoodBev.Application.DTOs.ProfileManagement
     /// </summary>
     public class UpdateCandidateProfileDto
     {
+        // Personal Details
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string IDNumber { get; set; }
+        public DateTime? DateOfBirth { get; set; }
+        public string Gender { get; set; }
+        public string Race { get; set; }
+        public string? Nationality { get; set; }
+        public bool? IsDisabled { get; set; }
+        public string? DisabilityDetails { get; set; }
+        
         // Contact Details
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; }
-        [Phone]
+        // Removed [Phone] attribute as it's too strict - allows any string format
         public string ContactNumber { get; set; }
         public string PhysicalAddress { get; set; }
         public string PostalCode { get; set; }
@@ -58,13 +70,14 @@ namespace FoodBev.Application.DTOs.ProfileManagement
         // Education & Status
         public string HighestQualification { get; set; }
         public string InstitutionName { get; set; }
-        public int QualificationYear { get; set; }
+        public int? QualificationYear { get; set; }
         public string EmploymentStatus { get; set; }
         
         // OFO Code and Documents
-        [Required]
+        [JsonPropertyName("ofO_Code")]
         public string OFO_Code { get; set; }
-        public string ID_Document_Ref { get; set; }
+        [JsonPropertyName("id_Document_Ref")]
+        public string? ID_Document_Ref { get; set; }
         
         // Consent
         public bool AcceptsPOPI { get; set; }

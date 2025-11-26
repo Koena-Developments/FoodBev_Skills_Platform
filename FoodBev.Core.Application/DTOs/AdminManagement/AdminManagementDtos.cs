@@ -70,4 +70,30 @@ namespace FoodBev.Application.DTOs.AdminManagement
         public DateTime? RegistrationDate { get; set; }
         public string RegisteredBy { get; set; } // Name/ID of the admin processing it
     }
+
+    // --- Dashboard DTOs ---
+
+    public class DashboardStatsDto
+    {
+        public int TotalStudents { get; set; }
+        public int TotalApplications { get; set; }
+        public int ActiveStudents24h { get; set; }
+        public int FundedCompanies { get; set; }
+    }
+
+    public class DemographicsDto
+    {
+        public string Province { get; set; }
+        public int Count { get; set; }
+    }
+
+    public class ActivityDto
+    {
+        public string Type { get; set; }
+        public DateTime Date { get; set; }
+        public string Description { get; set; }
+        public int? ApplicationId { get; set; }
+        public int? CandidateId { get; set; }
+        public int? JobId { get; set; }
+    }
 }

@@ -1,6 +1,7 @@
 using FoodBev.Core.Application.Configurations;
 using FoodBev.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -81,10 +82,31 @@ namespace FoodBev.API.Configurations
                         Array.Empty<string>()
                     }
                 });
+
+                // Configure file upload support for Swagger
+                // Map IFormFile to binary format for Swagger UI
+                c.MapType<IFormFile>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "binary"
+                });
+                c.MapType<IFormFileCollection>(() => new OpenApiSchema
+                {
+                    Type = "string",
+                    Format = "binary"
+                });
+                // Operation filter handles file uploads in RequestBody
+                c.OperationFilter<FileUploadOperationFilter>();
             });
 
-            // 5. Add API Controllers
-            services.AddControllers();
+            // 5. Add API Controllers with JSON options
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    // Configure JSON serialization to handle camelCase from frontend
+                    options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
+                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                });
             
             // 6. Configure CORS (Cross-Origin Resource Sharing)
             services.AddCors(options =>

@@ -34,10 +34,10 @@ namespace FoodBev.API.Controllers
         }
 
         /// <summary>
-        /// Get all applicants for a job.
+        /// Get all applicants for a job with optional filtering (OFO, EmploymentStatus, Province).
         /// </summary>
         [HttpGet]
-        public async Task<IActionResult> GetApplicants(int jobId)
+        public async Task<IActionResult> GetApplicants(int jobId, [FromQuery] string? ofoCode = null, [FromQuery] string? employmentStatus = null, [FromQuery] string? province = null)
         {
             var userId = GetUserId();
             if (string.IsNullOrEmpty(userId))
@@ -52,7 +52,13 @@ namespace FoodBev.API.Controllers
             if (job == null || job.EmployerID != employerId.Value)
                 return Forbid();
 
-            var applications = await _applicationService.GetApplicationsByJobAsync(jobId);
+            // Use filtered applicants if any filter is provided
+            var applications = !string.IsNullOrWhiteSpace(ofoCode) || 
+                             !string.IsNullOrWhiteSpace(employmentStatus) || 
+                             !string.IsNullOrWhiteSpace(province)
+                ? await _applicationService.GetFilteredApplicantsForJobAsync(jobId, ofoCode, employmentStatus, province)
+                : await _applicationService.GetApplicationsByJobAsync(jobId);
+            
             return Ok(applications);
         }
 
