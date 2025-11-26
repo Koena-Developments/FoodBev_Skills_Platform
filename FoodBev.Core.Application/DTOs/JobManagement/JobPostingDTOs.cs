@@ -22,6 +22,8 @@ namespace FoodBev.Application.DTOs.JobManagement
         [MaxLength(10)]
         public string OFO_Code_Required { get; set; }
         
+        public string? PreferredProvince { get; set; }
+        
         public bool IsBursary { get; set; } = false;
         
         [Required]
@@ -38,6 +40,7 @@ namespace FoodBev.Application.DTOs.JobManagement
         public string JobTitle { get; set; }
         public string JobDescription { get; set; }
         public string OFO_Code_Required { get; set; }
+        public string? PreferredProvince { get; set; }
         public bool IsBursary { get; set; }
         public DateTime DatePosted { get; set; }
         public DateTime ApplicationDeadline { get; set; }
@@ -67,6 +70,8 @@ namespace FoodBev.Application.DTOs.JobManagement
         
         [MaxLength(10)]
         public string? OFO_Code_Required { get; set; }
+        
+        public string? PreferredProvince { get; set; }
         
         public bool? IsBursary { get; set; }
         

@@ -7,6 +7,14 @@ export const useEmployer = () => {
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Get employer profile error:', error)
+      // 404 is OK - profile might not exist yet
+      if (error.response?.status === 404) {
+        return {
+          success: false,
+          error: 'Profile not found',
+          notFound: true
+        }
+      }
       return {
         success: false,
         error: error.response?.data?.message || error.message || 'Failed to fetch profile'
@@ -33,6 +41,14 @@ export const useEmployer = () => {
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Get employer jobs error:', error)
+      // 403 means unauthorized - might be role issue
+      if (error.response?.status === 403) {
+        return {
+          success: false,
+          error: 'Access denied. Please ensure you are logged in as an Employer.',
+          forbidden: true
+        }
+      }
       return {
         success: false,
         error: error.response?.data?.message || error.message || 'Failed to fetch jobs'

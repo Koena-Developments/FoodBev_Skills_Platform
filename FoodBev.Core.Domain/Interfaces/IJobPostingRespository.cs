@@ -11,8 +11,8 @@ namespace FoodBev.Core.Domain.Interfaces
     {
         Task<IEnumerable<JobPosting>> GetActiveJobsAsync();
         
-        // Custom query to find jobs matching a candidate's profile (e.g., OFO code, bursary status)
-        Task<IEnumerable<JobPosting>> GetMatchingJobsAsync(string candidateOfoCode, bool isBursarySeeker);
+        // Custom query to find jobs matching a candidate's profile (e.g., OFO code, province, bursary status)
+        Task<IEnumerable<JobPosting>> GetMatchingJobsAsync(string candidateOfoCode, string candidateProvince, bool isBursarySeeker);
         
         Task<IEnumerable<JobPosting>> GetJobsByEmployerAsync(int employerId);
     }

@@ -37,6 +37,7 @@ namespace FoodBev.Application.Services
                 JobTitle = job.JobTitle,
                 JobDescription = job.JobDescription,
                 OFO_Code_Required = job.OFO_Code_Required,
+                PreferredProvince = job.PreferredProvince,
                 IsBursary = job.IsBursary,
                 DatePosted = job.DatePosted,
                 ApplicationDeadline = job.ApplicationDeadline,
@@ -61,6 +62,7 @@ namespace FoodBev.Application.Services
                 JobTitle = dto.JobTitle,
                 JobDescription = dto.JobDescription,
                 OFO_Code_Required = dto.OFO_Code_Required,
+                PreferredProvince = dto.PreferredProvince,
                 IsBursary = dto.IsBursary,
                 ApplicationDeadline = dto.ApplicationDeadline,
                 // DatePosted is set by the entity's default value (DateTime.UtcNow)
@@ -112,6 +114,7 @@ namespace FoodBev.Application.Services
                     JobTitle = job.JobTitle,
                     JobDescription = job.JobDescription,
                     OFO_Code_Required = job.OFO_Code_Required,
+                    PreferredProvince = job.PreferredProvince,
                     IsBursary = job.IsBursary,
                     DatePosted = job.DatePosted,
                     ApplicationDeadline = job.ApplicationDeadline,
@@ -136,7 +139,12 @@ namespace FoodBev.Application.Services
             // 2. Fetch matching jobs from the repository
             // Assuming IsBursarySeeker is true if the candidate is unemployed, 
             // making them eligible for certain bursary programmes.
-            var jobs = await _unitOfWork.JobPostings.GetMatchingJobsAsync(candidate.OFO_Code, candidate.EmploymentStatus == "Unemployed"); 
+            // Also filter by PreferredProvince if set on the job
+            var jobs = await _unitOfWork.JobPostings.GetMatchingJobsAsync(
+                candidate.OFO_Code, 
+                candidate.Province, 
+                candidate.EmploymentStatus == "Unemployed"
+            ); 
 
             var jobDtos = new List<JobPostingDto>();
             
@@ -253,6 +261,9 @@ namespace FoodBev.Application.Services
 
             if (!string.IsNullOrWhiteSpace(dto.OFO_Code_Required))
                 job.OFO_Code_Required = dto.OFO_Code_Required;
+
+            if (dto.PreferredProvince != null)
+                job.PreferredProvince = dto.PreferredProvince;
 
             if (dto.IsBursary.HasValue)
                 job.IsBursary = dto.IsBursary.Value;

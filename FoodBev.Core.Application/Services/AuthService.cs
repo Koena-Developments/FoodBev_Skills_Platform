@@ -58,7 +58,11 @@ namespace FoodBev.Application.Services
                 else if (registrationDto.UserType == UserType.Employer)
                 {
                     // For Employer, EmployerID is the same as UserID
-                    var employer = new EmployerEntity { EmployerID = user.UserID };
+                    var employer = new EmployerEntity 
+                    { 
+                        EmployerID = user.UserID,
+                        UserID = user.UserID.ToString() // Set UserID as string for lookup
+                    };
                     await _unitOfWork.Employers.AddAsync(employer);
                 }
                 

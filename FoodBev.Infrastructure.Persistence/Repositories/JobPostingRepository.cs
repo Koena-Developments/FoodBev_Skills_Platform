@@ -41,16 +41,18 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
         }
 
         /// <summary>
-        /// Finds jobs that match a candidate's profile based on OFO code and bursary status.
+        /// Finds jobs that match a candidate's profile based on OFO code, province, and bursary status.
         /// </summary>
-        public async Task<IEnumerable<JobPosting>> GetMatchingJobsAsync(string candidateOfoCode, bool isBursarySeeker)
+        public async Task<IEnumerable<JobPosting>> GetMatchingJobsAsync(string candidateOfoCode, string candidateProvince, bool isBursarySeeker)
         {
             // Logic to match jobs:
             // 1. Job's required OFO code matches the candidate's OFO code OR
             // 2. The job is a bursary (IsBursary = true), which may bypass the OFO match
+            // 3. If job has PreferredProvince, candidate's province must match (or PreferredProvince is null)
             return await _context.JobPostings
                 .Where(j => j.ApplicationDeadline > DateTime.UtcNow) // Must be active
                 .Where(j => j.OFO_Code_Required == candidateOfoCode || j.IsBursary == isBursarySeeker)
+                .Where(j => j.PreferredProvince == null || j.PreferredProvince == candidateProvince) // Province filter
                 .OrderByDescending(j => j.DatePosted)
                 .ToListAsync();
         }

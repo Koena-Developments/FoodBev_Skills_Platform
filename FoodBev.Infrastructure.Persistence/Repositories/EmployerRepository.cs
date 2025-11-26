@@ -25,10 +25,29 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(e => e.LevyNumber == levyNumber);
         }
 
-  public async Task<EmployerEntity> GetByUserIdAsync(string userId)
-{
-    return await _context.EmployerDetails
-        .FirstOrDefaultAsync(e => e.UserID == userId);
-}
+        /// <summary>
+        /// Retrieves an employer entity based on their user ID.
+        /// </summary>
+        public async Task<EmployerEntity> GetByUserIdAsync(string userId)
+        {
+            // Try to parse userId as int to match EmployerID
+            if (int.TryParse(userId, out int employerId))
+            {
+                // First try by UserID field (for new records)
+                var employer = await _context.EmployerDetails
+                    .FirstOrDefaultAsync(e => e.UserID == userId);
+                
+                if (employer != null)
+                    return employer;
+                
+                // Fallback: try by EmployerID (for existing records without UserID set)
+                return await _context.EmployerDetails
+                    .FirstOrDefaultAsync(e => e.EmployerID == employerId);
+            }
+            
+            // If userId is not a valid int, try string match on UserID
+            return await _context.EmployerDetails
+                .FirstOrDefaultAsync(e => e.UserID == userId);
+        }
     }
 }
