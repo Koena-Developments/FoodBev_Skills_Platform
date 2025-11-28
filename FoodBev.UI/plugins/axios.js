@@ -50,10 +50,10 @@ export default defineNuxtPlugin(() => {
       }
       
       if (error.response?.status === 401) {
-        // Handle unauthorized - clear token and redirect to login
+
+        console.log("this is the error: ", response?.status);
         if (process.client) {
           localStorage.removeItem('auth_token')
-          // Use window.location to avoid router issues in interceptor
           if (window.location.pathname !== '/login') {
             window.location.href = '/login'
           }

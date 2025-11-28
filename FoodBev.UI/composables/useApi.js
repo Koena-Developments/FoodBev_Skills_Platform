@@ -3,7 +3,6 @@ export const useApi = () => {
   
   return {
     api: $axios,
-    // Helper methods for common API calls
     get: (url, config = {}) => $axios.get(url, config),
     post: (url, data, config = {}) => $axios.post(url, data, config),
     put: (url, data, config = {}) => $axios.put(url, data, config),

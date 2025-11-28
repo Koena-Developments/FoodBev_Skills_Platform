@@ -171,6 +171,8 @@
                 <option value="Applied">Applied</option>
                 <option value="Shortlisted">Shortlisted</option>
                 <option value="InterviewScheduled">Interview Scheduled</option>
+                <option value="InterviewAccepted">Interview Accepted</option>
+                <option value="InterviewDeclined">Interview Declined</option>
                 <option value="Hired">Hired</option>
                 <option value="Rejected">Rejected</option>
               </select>

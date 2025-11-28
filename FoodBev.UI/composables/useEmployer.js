@@ -112,14 +112,28 @@ export const useEmployer = () => {
 
   const updateApplicationStatus = async (applicationId, status) => {
     try {
-      // Convert string status to enum format (capitalize first letter, handle camelCase)
-      const statusEnum = status.charAt(0).toUpperCase() + status.slice(1)
-      const response = await api.put(`/applications/${applicationId}/status`, { Status: statusEnum })
+      // Remove spaces and ensure proper enum format (e.g., "Interview Scheduled" -> "InterviewScheduled")
+      // The status should already be in the correct enum format from the dropdown
+      const statusEnum = status.replace(/\s+/g, '')
+      
+      console.log(`Updating application ${applicationId} status to: ${statusEnum}`)
+      
+      // Send the status - backend expects PascalCase enum values (e.g., "Shortlisted", "InterviewScheduled")
+      const response = await api.put(`/applications/${applicationId}/status`, { 
+        status: statusEnum 
+      })
       return { success: true, data: response.data }
     } catch (error) {
+      console.error('Update application status error:', error)
+      const errorMessage = error.response?.data?.message || 
+                          (error.response?.data?.errors && Array.isArray(error.response.data.errors) 
+                            ? error.response.data.errors.join(', ') 
+                            : error.response?.data?.title) || 
+                          error.message || 
+                          'Failed to update status'
       return {
         success: false,
-        error: error.response?.data?.message || error.response?.data?.title || error.message || 'Failed to update status'
+        error: errorMessage
       }
     }
   }

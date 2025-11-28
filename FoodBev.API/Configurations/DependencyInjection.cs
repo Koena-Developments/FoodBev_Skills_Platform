@@ -1,3 +1,4 @@
+using FoodBev.API.Converters;
 using FoodBev.Core.Application.Configurations;
 using FoodBev.Infrastructure.Persistence.Configurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace FoodBev.API.Configurations
 {
@@ -106,6 +108,8 @@ namespace FoodBev.API.Configurations
                     // Configure JSON serialization to handle camelCase from frontend
                     options.JsonSerializerOptions.PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    // Configure enum parsing to be case-insensitive - allows "Shortlisted", "shortlisted", "SHORTLISTED", etc.
+                    options.JsonSerializerOptions.Converters.Add(new CaseInsensitiveEnumConverterFactory());
                 });
             
             // 6. Configure CORS (Cross-Origin Resource Sharing)

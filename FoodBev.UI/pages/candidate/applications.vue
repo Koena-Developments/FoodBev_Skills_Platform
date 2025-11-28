@@ -8,12 +8,32 @@
             <h1 class="text-2xl font-bold text-gray-900">My Applications</h1>
             <p class="text-sm text-gray-600 mt-1">Track your job applications</p>
           </div>
-          <NuxtLink
-            to="/candidate/jobs"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
-          >
-            Browse Jobs
-          </NuxtLink>
+          <div class="flex gap-2">
+            <button
+              @click="loadApplications"
+              :disabled="loading"
+              class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              title="Refresh applications"
+            >
+              <svg 
+                :class="{ 'animate-spin': loading }"
+                class="w-4 h-4" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span v-if="!loading">Refresh</span>
+              <span v-else>Refreshing...</span>
+            </button>
+            <NuxtLink
+              to="/candidate/jobs"
+              class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Browse Jobs
+            </NuxtLink>
+          </div>
         </div>
       </div>
     </header>
@@ -179,8 +199,26 @@ const formatDate = (dateString) => {
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 }
 
+// Auto-refresh when window gains focus (user switches back to tab)
+const handleVisibilityChange = () => {
+  if (!document.hidden && !loading.value) {
+    // Only refresh if page is visible and not already loading
+    loadApplications()
+  }
+}
+
 onMounted(() => {
   loadApplications()
+  // Listen for visibility changes (tab switch)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
+  // Also listen for window focus (alternative method)
+  window.addEventListener('focus', handleVisibilityChange)
+})
+
+onUnmounted(() => {
+  // Clean up event listeners
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
+  window.removeEventListener('focus', handleVisibilityChange)
 })
 </script>
 
