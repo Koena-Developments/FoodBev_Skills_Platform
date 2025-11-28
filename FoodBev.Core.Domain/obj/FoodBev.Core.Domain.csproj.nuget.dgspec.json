@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {}
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
+    "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
         "projectName": "FoodBev.Core.Domain",
-        "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
-        "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Domain\\obj\\",
+        "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\FoodBev.Core.Domain.csproj",
+        "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"

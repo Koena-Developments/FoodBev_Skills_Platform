@@ -1,4 +1,3 @@
-// using FoodBev.Core.Application.Interfaces;
 using FoodBev.Application.Interfaces;
 using FoodBev.Infrastructure.Persistence.Services;
 using FoodBev.Core.Domain.Interfaces;
@@ -8,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace FoodBev.Infrastructure.Persistence.Configurations // CORRECTED NAMESPACE
+namespace FoodBev.Infrastructure.Persistence.Configurations 
 {
     /// <summary>
     /// Extension methods for configuring Persistence layer services, specifically the database context and Unit of Work.
@@ -18,8 +17,6 @@ namespace FoodBev.Infrastructure.Persistence.Configurations // CORRECTED NAMESPA
     {
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            // 1. Configure the Database Context
-            // We'll use SQLite as the database provider.
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(connectionString));

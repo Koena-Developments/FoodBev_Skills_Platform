@@ -108,6 +108,13 @@ export const useCandidate = () => {
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Apply to job error:', error)
+      // Handle 409 Conflict (duplicate application)
+      if (error.response?.status === 409) {
+        return {
+          success: false,
+          error: error.response?.data?.message || 'You have already applied to this job.'
+        }
+      }
       return {
         success: false,
         error: error.response?.data?.message || error.message || 'Failed to apply to job'

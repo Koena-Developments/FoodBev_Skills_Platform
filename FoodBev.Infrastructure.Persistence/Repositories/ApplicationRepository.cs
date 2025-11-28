@@ -64,5 +64,14 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
                 .Include(a => a.SkillsProgrammeForm)
                 .ToListAsync();
         }
+
+        /// <summary>
+        /// Checks if a candidate has already applied to a specific job.
+        /// </summary>
+        public async Task<ApplicationEntity> GetApplicationByJobAndCandidateAsync(int jobId, int candidateId)
+        {
+            return await _context.Applications
+                .FirstOrDefaultAsync(a => a.JobID == jobId && a.CandidateID == candidateId);
+        }
     }
 }

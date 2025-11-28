@@ -22,13 +22,14 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
         /// </summary>
         public async Task<CandidateEntity> GetByUserIdAsync(string userId)
         {
-            if (int.TryParse(userId, out int candidateId))
+            if (string.IsNullOrWhiteSpace(userId) || !int.TryParse(userId, out int candidateId))
             {
-                return await _context.CandidateDetails
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync(c => c.CandidateID == candidateId);
+                return null;
             }
-            return null;
+
+            return await _context.CandidateDetails
+                .AsNoTracking()
+                .FirstOrDefaultAsync(c => c.CandidateID == candidateId);
         }
 
         /// <summary>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FoodBev.API.Controllers
 {
-    [Authorize(Roles = "Employer")] // Only Employers can manage their company profile
+    [Authorize] // Ensure only authenticated users can access these endpoints
     [ApiController]
     [Route("api/v1/employer/profile")]
     public class EmployerProfilesController : ControllerBase
@@ -20,17 +20,30 @@ namespace FoodBev.API.Controllers
         }
 
         private string GetUserId() => User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        
+        private bool IsEmployer()
+        {
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            return role == "Employer";
+        }
 
         /// <summary>
         /// Retrieves the profile details for the currently authenticated employer (company profile).
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(EmployerProfileDto), 200)]
+        [ProducesResponseType(403)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetProfile()
         {
             var userId = GetUserId();
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            
+            // Check if user is an Employer
+            if (!IsEmployer())
+            {
+                return StatusCode(403, new { message = "Only employers can access this endpoint." });
+            }
 
             var profile = await _employerService.GetEmployerProfileAsync(userId);
 
@@ -48,10 +61,17 @@ namespace FoodBev.API.Controllers
         [HttpPut]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [ProducesResponseType(403)]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateEmployerProfileDto model)
         {
             var userId = GetUserId();
             if (string.IsNullOrEmpty(userId)) return Unauthorized();
+            
+            // Check if user is an Employer
+            if (!IsEmployer())
+            {
+                return StatusCode(403, new { message = "Only employers can update their profile." });
+            }
 
             var result = await _employerService.UpdateEmployerProfileAsync(userId, model);
 

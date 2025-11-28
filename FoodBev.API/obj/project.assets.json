@@ -4341,19 +4341,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\motsw\\.nuget\\packages\\": {}
+    "C:\\Users\\Thabang\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj",
+      "projectUniqueName": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj",
       "projectName": "FoodBev.API",
-      "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\FoodBev.API.csproj",
-      "packagesPath": "C:\\Users\\motsw\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.API\\obj\\",
+      "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\FoodBev.API.csproj",
+      "packagesPath": "C:\\Users\\Thabang\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.API\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\motsw\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Thabang\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -4365,11 +4365,11 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
-              "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
+            "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj": {
+              "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Core.Application\\FoodBev.Core.Application.csproj"
             },
-            "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
-              "projectPath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj"
+            "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj": {
+              "projectPath": "C:\\Users\\Thabang\\Desktop\\Foodbev_skills_platform\\FoodBev_Skills_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj"
             }
           }
         }

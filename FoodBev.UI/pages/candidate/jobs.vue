@@ -62,11 +62,19 @@
 
             <div class="ml-4 flex flex-col gap-2">
               <button
+                v-if="!appliedJobIds.has(job.jobID)"
                 @click="applyToJob(job.jobID)"
                 :disabled="applyingJobs.includes(job.jobID)"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {{ applyingJobs.includes(job.jobID) ? 'Applying...' : 'Apply' }}
+              </button>
+              <button
+                v-else
+                disabled
+                class="px-4 py-2 bg-green-600 text-white rounded-lg cursor-not-allowed transition"
+              >
+                Applied
               </button>
               <button
                 @click="saveJob(job.jobID)"
@@ -84,9 +92,10 @@
 </template>
 
 <script setup>
-const { getMatchingJobs, applyToJob: applyJob, saveJob: saveJobAction } = useCandidate()
+const { getMatchingJobs, applyToJob: applyJob, saveJob: saveJobAction, getApplications } = useCandidate()
 
 const jobs = ref([])
+const appliedJobIds = ref(new Set())
 const loading = ref(true)
 const error = ref(null)
 const applyingJobs = ref([])
@@ -96,12 +105,24 @@ const loadJobs = async () => {
   loading.value = true
   error.value = null
   
-  const result = await getMatchingJobs()
-  if (result.success) {
-    jobs.value = result.data || []
+  // Load both jobs and applications
+  const [jobsResult, applicationsResult] = await Promise.all([
+    getMatchingJobs(),
+    getApplications()
+  ])
+  
+  if (jobsResult.success) {
+    jobs.value = jobsResult.data || []
   } else {
-    error.value = result.error
+    error.value = jobsResult.error
   }
+  
+  // Track which jobs have been applied to
+  if (applicationsResult.success && applicationsResult.data) {
+    const appliedIds = new Set(applicationsResult.data.map(app => app.jobID))
+    appliedJobIds.value = appliedIds
+  }
+  
   loading.value = false
 }
 
@@ -109,10 +130,10 @@ const applyToJob = async (jobId) => {
   applyingJobs.value.push(jobId)
   const result = await applyJob(jobId)
   if (result.success) {
+    // Update local state immediately
+    appliedJobIds.value.add(jobId)
     // Show success message
     alert('Application submitted successfully!')
-    // Reload jobs to update status
-    await loadJobs()
   } else {
     alert(`Failed to apply: ${result.error}`)
   }

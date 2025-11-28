@@ -2,22 +2,21 @@ using FoodBev.Application.DTOs.ProfileManagement;
 using FoodBev.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace FoodBev.API.Controllers
 {
-    [Authorize] // Ensure only authenticated users can access these endpoints
+    [Authorize] 
     [ApiController]
     [Route("api/v1/candidate/profile")]
     public class CandidateProfilesController : ControllerBase
     {
         private readonly ICandidateService _candidateService;
         
-        // Note: Using Mediator pattern is ideal here, but using the service directly for simplicity.
-        // If you were using MediatR, you'd inject IMediator and send a GetCandidateProfileQuery.
-
+    
         public CandidateProfilesController(ICandidateService candidateService)
         {
             _candidateService = candidateService;
@@ -31,7 +30,6 @@ namespace FoodBev.API.Controllers
         [ProducesResponseType(404)]
         public async Task<IActionResult> GetProfile()
         {
-            // Get the authenticated User ID (must match how you store it during registration/login)
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (string.IsNullOrEmpty(userId))
             {
@@ -53,14 +51,13 @@ namespace FoodBev.API.Controllers
         /// </summary>
         [HttpPut]
         [ProducesResponseType(typeof(CandidateProfileDto), 200)]
-        [ProducesResponseType(400)] // Bad Request for validation errors
-        [ProducesResponseType(401)] // Unauthorized
-        [ProducesResponseType(404)] // Not Found
+        [ProducesResponseType(400)] 
+        [ProducesResponseType(401)] 
+        [ProducesResponseType(404)] 
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateCandidateProfileDto model)
         {
             if (!ModelState.IsValid)
             {
-                // Return detailed validation errors
                 var errors = ModelState
                     .Where(x => x.Value?.Errors.Count > 0)
                     .ToDictionary(
@@ -87,14 +84,25 @@ namespace FoodBev.API.Controllers
                 return NotFound("Candidate profile not found.");
             }
 
-            var result = await _candidateService.UpdateCandidateProfileAsync(candidateId.Value, model);
-
-            if (result == null)
+            try
             {
-                return NotFound("Candidate profile not found.");
+                var result = await _candidateService.UpdateCandidateProfileAsync(candidateId.Value, model);
+
+                if (result == null)
+                {
+                    return NotFound("Candidate profile not found.");
+                }
+                
+                return Ok(result);
             }
-            
-            return Ok(result);
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { 
+                    type = "ValidationError",
+                    title = "Update failed",
+                    message = ex.Message 
+                });
+            }
         }
     }
 }

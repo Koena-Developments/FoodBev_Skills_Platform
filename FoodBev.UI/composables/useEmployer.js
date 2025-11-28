@@ -41,7 +41,7 @@ export const useEmployer = () => {
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Get employer jobs error:', error)
-      // 403 means unauthorized - might be role issue
+
       if (error.response?.status === 403) {
         return {
           success: false,
@@ -72,6 +72,7 @@ export const useEmployer = () => {
   const updateJob = async (jobId, jobData) => {
     try {
       const response = await api.put(`/jobs/${jobId}`, jobData)
+      console.log(response.data);
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Update job error:', error)
@@ -98,6 +99,7 @@ export const useEmployer = () => {
   const getApplicants = async (jobId, filters = {}) => {
     try {
       const response = await api.get(`/jobs/${jobId}/applicants`, { params: filters })
+      console.log(response.data);
       return { success: true, data: response.data }
     } catch (error) {
       console.error('Get applicants error:', error)
@@ -110,13 +112,14 @@ export const useEmployer = () => {
 
   const updateApplicationStatus = async (applicationId, status) => {
     try {
-      const response = await api.put(`/applications/${applicationId}/status`, { status })
+      // Convert string status to enum format (capitalize first letter, handle camelCase)
+      const statusEnum = status.charAt(0).toUpperCase() + status.slice(1)
+      const response = await api.put(`/applications/${applicationId}/status`, { Status: statusEnum })
       return { success: true, data: response.data }
     } catch (error) {
-      console.error('Update application status error:', error)
       return {
         success: false,
-        error: error.response?.data?.message || error.message || 'Failed to update status'
+        error: error.response?.data?.message || error.response?.data?.title || error.message || 'Failed to update status'
       }
     }
   }

@@ -134,7 +134,7 @@
                   :to="`/employer/jobs/${job.jobID}/applicants`"
                   class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-center text-sm"
                 >
-                  View Applicants
+                  View Applicants ({{ job.applicantCount || 0 }})
                 </NuxtLink>
                 <button
                   @click="editJob(job)"
@@ -325,6 +325,8 @@ const loadData = async () => {
     // Jobs might return 403 if not authorized, or empty array if no jobs
     if (jobsResult.success) {
       jobs.value = jobsResult.data || []
+      // Fetch applicant counts for each job
+      await loadApplicantCounts()
     } else {
       // Check if it's a 403 (forbidden) - might be role issue
       if (jobsResult.error && jobsResult.error.includes('403')) {
@@ -341,6 +343,32 @@ const loadData = async () => {
   }
 }
 
+const loadApplicantCounts = async () => {
+  const { getApplicants } = useEmployer()
+  const promises = jobs.value.map(async (job) => {
+    try {
+      const result = await getApplicants(job.jobID)
+      return {
+        jobId: job.jobID,
+        count: result.success ? result.data?.length || 0 : 0
+      }
+    } catch {
+      return {
+        jobId: job.jobID,
+        count: 0
+      }
+    }
+  })
+
+  const counts = await Promise.all(promises)
+  counts.forEach(({ jobId, count }) => {
+    const job = jobs.value.find((j) => j.jobID === jobId)
+    if (job) {
+      job.applicantCount = count
+    }
+  })
+}
+
 const activeJobsCount = computed(() => {
   const now = new Date()
   return jobs.value.filter(job => {
@@ -350,9 +378,11 @@ const activeJobsCount = computed(() => {
 })
 
 const totalApplicants = computed(() => {
-  // This would need to be calculated from all applications
-  // For now, return 0 or fetch from a separate endpoint
-  return 0
+  // Calculate total applicants across all jobs
+  // This is a simple count - in production, you might want to fetch this from an API
+  return jobs.value.reduce((total, job) => {
+    return total + (job.applicantCount || 0)
+  }, 0)
 })
 
 const formatDate = (dateString) => {

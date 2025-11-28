@@ -1,7 +1,9 @@
 using FoodBev.Application.DTOs.ProfileManagement;
 using FoodBev.Application.Interfaces;
 using FoodBev.Core.Domain.Entities;
+using FoodBev.Core.Domain.Enums;
 using FoodBev.Core.Domain.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace FoodBev.Application.Services
@@ -62,7 +64,46 @@ namespace FoodBev.Application.Services
 
         public async Task<CandidateProfileDto> GetCandidateProfileByUserIdAsync(string userId)
         {
+            if (string.IsNullOrWhiteSpace(userId) || !int.TryParse(userId, out int candidateId))
+            {
+                return null;
+            }
+
+            // First, try to get existing candidate
             var candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+            
+            // If candidate profile doesn't exist, verify user exists and create profile
+            if (candidate == null)
+            {
+                // Verify the user exists and is a candidate
+                var user = await _unitOfWork.Users.GetByIdAsync(candidateId);
+                if (user == null || user.UserType != UserType.Candidate)
+                {
+                    return null; // User doesn't exist or isn't a candidate
+                }
+
+                // User exists and is a candidate, but profile is missing - create it
+                try
+                {
+                    candidate = new CandidateEntity 
+                    { 
+                        CandidateID = candidateId,
+                        // Initialize all required fields to avoid constraint issues
+                        AcceptsPOPI = false
+                    };
+                    await _unitOfWork.Candidates.AddAsync(candidate);
+                    await _unitOfWork.CompleteAsync();
+                    
+                    // Fetch the newly created candidate
+                    candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+                }
+                catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+                {
+                    // If creation fails (e.g., already exists), try to fetch again
+                    candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+                }
+            }
+            
             return MapToDto(candidate);
         }
 
@@ -73,6 +114,16 @@ namespace FoodBev.Application.Services
             if (candidate == null)
             {
                 return null;
+            }
+            
+            // Validate IDNumber uniqueness if it's being changed
+            if (!string.IsNullOrWhiteSpace(dto.IDNumber) && dto.IDNumber != candidate.IDNumber)
+            {
+                var existingCandidate = await _unitOfWork.Candidates.GetCandidateBySAIdAsync(dto.IDNumber);
+                if (existingCandidate != null && existingCandidate.CandidateID != candidateId)
+                {
+                    throw new InvalidOperationException($"ID Number '{dto.IDNumber}' is already registered to another candidate.");
+                }
             }
             
             // Update all fields (only update if provided)
@@ -133,6 +184,36 @@ namespace FoodBev.Application.Services
         public async Task<int?> GetCandidateIdByUserIdAsync(string userId)
         {
             var candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+            
+            // If candidate profile doesn't exist but user exists, create an empty profile
+            if (candidate == null && int.TryParse(userId, out int candidateId))
+            {
+                // Verify the user exists and is a candidate
+                var user = await _unitOfWork.Users.GetByIdAsync(candidateId);
+                if (user != null && user.UserType == UserType.Candidate)
+                {
+                    try
+                    {
+                        // Create an empty candidate profile with all required fields initialized
+                        candidate = new CandidateEntity 
+                        { 
+                            CandidateID = candidateId,
+                            AcceptsPOPI = false // Initialize required field to avoid constraint issues
+                        };
+                        await _unitOfWork.Candidates.AddAsync(candidate);
+                        await _unitOfWork.CompleteAsync();
+                        
+                        // Re-fetch to ensure it was created successfully
+                        candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+                    }
+                    catch
+                    {
+                        // If creation fails, try to fetch again in case it was created by another process
+                        candidate = await _unitOfWork.Candidates.GetByUserIdAsync(userId);
+                    }
+                }
+            }
+            
             return candidate?.CandidateID;
         }
     }

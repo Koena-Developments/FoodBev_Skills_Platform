@@ -3,6 +3,8 @@ using FoodBev.Application.Interfaces;
 using FoodBev.Core.Domain.Entities; // 👈 WAS MISSING — now added
 using FoodBev.Core.Domain.Enums;
 using FoodBev.Core.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,6 +35,9 @@ namespace FoodBev.Application.Services
             // Check if the Skills Form exists
             var form = await _unitOfWork.SkillsProgrammeForms.GetByApplicationIdAsync(application.ApplicationID);
             
+            // Get candidate details for filtering
+            var candidate = application.Candidate ?? await _unitOfWork.Candidates.GetByIdAsync(application.CandidateID);
+            
             return new ApplicationSummaryDto
             {
                 ApplicationID = application.ApplicationID,
@@ -45,7 +50,19 @@ namespace FoodBev.Application.Services
                 InterviewDate = application.InterviewDate,
                 InterviewVenue = application.InterviewVenue,
                 InterviewResponse = application.InterviewResponse,
-                HasSkillsForm = form != null // Indicate if the form linked to the application exists
+                HasSkillsForm = form != null, // Indicate if the form linked to the application exists
+                CV_File_Ref = application.CV_File_Ref, // Include CV file reference
+                CandidateOFO_Code = candidate?.OFO_Code ?? string.Empty,
+                CandidateEmploymentStatus = candidate?.EmploymentStatus ?? string.Empty,
+                CandidateProvince = candidate?.Province ?? string.Empty,
+                CandidateFirstName = candidate?.FirstName ?? string.Empty,
+                CandidateLastName = candidate?.LastName ?? string.Empty,
+                CandidateEmail = candidate?.Email ?? string.Empty,
+                CandidateContactNumber = candidate?.ContactNumber ?? string.Empty,
+                CandidateHighestQualification = candidate?.HighestQualification ?? string.Empty,
+                CandidateInstitutionName = candidate?.InstitutionName ?? string.Empty,
+                CandidateQualificationYear = candidate?.QualificationYear,
+                CandidateID_Document_Ref = candidate?.ID_Document_Ref ?? string.Empty
             };
         }
         
@@ -77,7 +94,14 @@ namespace FoodBev.Application.Services
                 return null; // Job or Candidate not found
             }
             
-            // 2. Create Application Entity
+            // 2. Check if candidate has already applied to this job
+            var existingApplication = await _unitOfWork.Applications.GetApplicationByJobAndCandidateAsync(dto.JobID, dto.CandidateID);
+            if (existingApplication != null)
+            {
+                throw new InvalidOperationException($"You have already applied to this job. Application ID: {existingApplication.ApplicationID}");
+            }
+            
+            // 3. Create Application Entity
             var application = new ApplicationEntity
             {
                 JobID = dto.JobID,
@@ -87,16 +111,29 @@ namespace FoodBev.Application.Services
                 Status = ApplicationStatus.Applied,
             };
 
-            // This relies on the unique index on (JobID, CandidateID) in the DbContext to prevent duplicates
-            await _unitOfWork.Applications.AddAsync(application);
-            await _unitOfWork.CompleteAsync();
+            try
+            {
+                await _unitOfWork.Applications.AddAsync(application);
+                await _unitOfWork.CompleteAsync();
+            }
+            catch (DbUpdateException ex) when (ex.InnerException?.Message?.Contains("UNIQUE constraint") == true)
+            {
+                // Fallback: Handle unique constraint violation if check above didn't catch it
+                throw new InvalidOperationException("You have already applied to this job.", ex);
+            }
 
-            // 3. Create initial Skills Programme Form (one-to-one relationship)
+            // 4. Create initial Skills Programme Form (one-to-one relationship)
             var form = new SkillsProgrammeForm
             {
                 ApplicationID = application.ApplicationID,
                 DateSubmitted = application.DateApplied,
-                Status = FormStatus.Pending_Candidate // Form starts by waiting for the candidate to sign
+                Status = FormStatus.Pending_Candidate, // Form starts by waiting for the candidate to sign
+                // Initialize signature fields with empty strings to satisfy NOT NULL constraints
+                // These will be populated later when signatures are collected
+                CandidateSignature = string.Empty,
+                EmployerSignature = string.Empty,
+                TrainingProviderSignature = string.Empty,
+                AdminRegistrationNo = string.Empty
             };
             
             await _unitOfWork.SkillsProgrammeForms.AddAsync(form);

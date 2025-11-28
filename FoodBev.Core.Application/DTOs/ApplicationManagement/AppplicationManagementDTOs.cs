@@ -38,6 +38,20 @@ namespace FoodBev.Application.DTOs.ApplicationManagement
         public string InterviewVenue { get; set; }
         public InterviewResponse InterviewResponse { get; set; }
         public bool HasSkillsForm { get; set; }
+        public string CV_File_Ref { get; set; } // CV file reference for employer viewing
+        
+        // Candidate fields for filtering and display
+        public string CandidateOFO_Code { get; set; }
+        public string CandidateEmploymentStatus { get; set; }
+        public string CandidateProvince { get; set; }
+        public string CandidateFirstName { get; set; }
+        public string CandidateLastName { get; set; }
+        public string CandidateEmail { get; set; }
+        public string CandidateContactNumber { get; set; }
+        public string CandidateHighestQualification { get; set; }
+        public string CandidateInstitutionName { get; set; }
+        public int? CandidateQualificationYear { get; set; }
+        public string CandidateID_Document_Ref { get; set; }
     }
     
     /// <summary>

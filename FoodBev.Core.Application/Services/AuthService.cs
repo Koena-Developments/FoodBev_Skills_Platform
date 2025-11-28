@@ -52,7 +52,11 @@ namespace FoodBev.Application.Services
                 if (registrationDto.UserType == UserType.Candidate)
                 {
                     // For Candidate, CandidateID is the same as UserID
-                    var candidate = new CandidateEntity { CandidateID = user.UserID };
+                    var candidate = new CandidateEntity 
+                    { 
+                        CandidateID = user.UserID,
+                        AcceptsPOPI = false // Initialize required field
+                    };
                     await _unitOfWork.Candidates.AddAsync(candidate);
                 }
                 else if (registrationDto.UserType == UserType.Employer)

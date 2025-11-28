@@ -15,5 +15,10 @@ namespace FoodBev.Core.Domain.Interfaces
         Task<IEnumerable<ApplicationEntity>> GetApplicationsByStatusAsync(ApplicationStatus status);
         
         Task<ApplicationEntity> GetApplicationWithDetailsAsync(int applicationId);
+        
+        /// <summary>
+        /// Checks if a candidate has already applied to a specific job.
+        /// </summary>
+        Task<ApplicationEntity> GetApplicationByJobAndCandidateAsync(int jobId, int candidateId);
     }
 }

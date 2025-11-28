@@ -3,6 +3,7 @@ using FoodBev.Application.Interfaces;
 using FoodBev.Core.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -49,11 +50,19 @@ namespace FoodBev.API.Controllers
                 CandidateAvailability = "Immediate"
             };
 
-            var result = await _applicationService.ApplyToJobAsync(dto);
-            if (result == null)
-                return BadRequest("Job or candidate not found.");
+            try
+            {
+                var result = await _applicationService.ApplyToJobAsync(dto);
+                if (result == null)
+                    return BadRequest("Job or candidate not found.");
 
-            return Ok(result);
+                return Ok(result);
+            }
+            catch (InvalidOperationException ex)
+            {
+                // Handle duplicate application or other business logic errors
+                return Conflict(new { message = ex.Message });
+            }
         }
 
         /// <summary>
