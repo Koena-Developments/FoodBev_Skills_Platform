@@ -112,7 +112,8 @@ namespace FoodBev.Infrastructure.Persistence.Services
             {
                 new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.UserType.ToString()),
+                // Use "role" as the claim type for JWT compatibility (maps to ClaimTypes.Role on read)
+                new Claim("role", user.UserType.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

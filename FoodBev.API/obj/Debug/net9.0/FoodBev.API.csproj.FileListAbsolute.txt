@@ -333,3 +333,4 @@ C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev
 C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.API\bin\Debug\net9.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.API\bin\Debug\net9.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\Thabang\Desktop\Foodbev_skills_platform\FoodBev_Skills_Platform\FoodBev.API\bin\Debug\net9.0\FoodBev.API.staticwebassets.runtime.json
+C:\Users\motsw\Desktop\FoodBev_Platform\FoodBev.API\bin\Debug\net9.0\FoodBev.API.staticwebassets.runtime.json

@@ -29,6 +29,26 @@ namespace FoodBev.API.Controllers
         }
 
         /// <summary>
+        /// Debug endpoint to check user claims and roles
+        /// </summary>
+        [HttpGet("debug/claims")]
+        public IActionResult DebugClaims()
+        {
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            var roles = User.Claims.Where(c => c.Type == ClaimTypes.Role || c.Type == "role").Select(c => c.Value).ToList();
+            var isInRole = User.IsInRole("Candidate");
+            
+            return Ok(new 
+            { 
+                AllClaims = claims,
+                Roles = roles,
+                IsInCandidateRole = isInRole,
+                HasRoleClaim = User.HasClaim(ClaimTypes.Role, "Candidate"),
+                HasRoleClaimShort = User.HasClaim("role", "Candidate")
+            });
+        }
+
+        /// <summary>
         /// Submits an application for a specific job ID.
         /// </summary>
         [HttpPost("{jobId:int}")]

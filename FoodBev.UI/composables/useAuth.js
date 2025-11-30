@@ -15,8 +15,10 @@ export const useAuth = () => {
       
       if (response.data?.token) {
         if (process.client) {
-          localStorage.setItem('auth_token', response.data.token)
-          localStorage.setItem('user', JSON.stringify(response.data))
+          // Use sessionStorage instead of localStorage to isolate tokens per browser tab
+          // This prevents one tab's login from overwriting another tab's token
+          sessionStorage.setItem('auth_token', response.data.token)
+          sessionStorage.setItem('user', JSON.stringify(response.data))
         }
         return { success: true, data: response.data }
       }
@@ -55,8 +57,9 @@ export const useAuth = () => {
       
       if (response.data?.token) {
         if (process.client) {
-          localStorage.setItem('auth_token', response.data.token)
-          localStorage.setItem('user', JSON.stringify(response.data))
+          // Use sessionStorage instead of localStorage to isolate tokens per browser tab
+          sessionStorage.setItem('auth_token', response.data.token)
+          sessionStorage.setItem('user', JSON.stringify(response.data))
         }
         return { success: true, data: response.data }
       }
@@ -82,22 +85,22 @@ export const useAuth = () => {
   
   const logout = () => {
     if (process.client) {
-      localStorage.removeItem('auth_token')
-      localStorage.removeItem('user')
+      sessionStorage.removeItem('auth_token')
+      sessionStorage.removeItem('user')
     }
     router.push('/login')
   }
   
   const getToken = () => {
     if (process.client) {
-      return localStorage.getItem('auth_token')
+      return sessionStorage.getItem('auth_token')
     }
     return null
   }
   
   const getUser = () => {
     if (process.client) {
-      const userStr = localStorage.getItem('user')
+      const userStr = sessionStorage.getItem('user')
       return userStr ? JSON.parse(userStr) : null
     }
     return null

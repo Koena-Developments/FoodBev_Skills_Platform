@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -50,8 +51,67 @@ namespace FoodBev.API.Configurations
                     ValidIssuer = issuer,
                     ValidAudience = audience,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey)),
-                    ClockSkew = TimeSpan.Zero // Remove delay of token when expire
+                    ClockSkew = TimeSpan.Zero, // Remove delay of token when expire
+                    // Set RoleClaimType to "role" so ASP.NET Core knows where to find roles
+                    RoleClaimType = "role",
+                    NameClaimType = System.Security.Claims.ClaimTypes.NameIdentifier
                 };
+                
+                // Ensure role claims are properly mapped from JWT to User claims
+                options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+                {
+                    OnTokenValidated = context =>
+                    {
+                        var identity = context.Principal?.Identity as System.Security.Claims.ClaimsIdentity;
+                        if (identity != null)
+                        {
+                            // Find the role claim - check both "role" and full URI formats
+                            var roleClaim = identity.FindFirst("role") 
+                                ?? identity.FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")
+                                ?? identity.FindFirst(System.Security.Claims.ClaimTypes.Role);
+                            
+                            if (roleClaim != null)
+                            {
+                                // Remove ALL existing role claims (both types) to avoid duplicates
+                                var allRoleClaims = identity.Claims
+                                    .Where(c => c.Type == "role" || 
+                                               c.Type == System.Security.Claims.ClaimTypes.Role ||
+                                               c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")
+                                    .ToList();
+                                
+                                foreach (var existing in allRoleClaims)
+                                {
+                                    identity.RemoveClaim(existing);
+                                }
+                                
+                                // CRITICAL: Add the role claim with BOTH claim types to ensure it works
+                                // Add with ClaimTypes.Role (what [Authorize(Roles = "...")] checks)
+                                identity.AddClaim(new System.Security.Claims.Claim(
+                                    System.Security.Claims.ClaimTypes.Role, 
+                                    roleClaim.Value));
+                                
+                                // Also keep the "role" claim for RoleClaimType compatibility
+                                if (roleClaim.Type != "role")
+                                {
+                                    identity.AddClaim(new System.Security.Claims.Claim("role", roleClaim.Value));
+                                }
+                            }
+                        }
+                        return Task.CompletedTask;
+                    }
+                };
+            });
+
+            // Configure Authorization to use roles from JWT claims
+            services.AddAuthorization(options =>
+            {
+                // This ensures role-based authorization works with JWT tokens
+                options.FallbackPolicy = null; // No default policy - explicit authorization required
+                
+                // Ensure role-based policies work correctly
+                options.AddPolicy("Candidate", policy => policy.RequireRole("Candidate"));
+                options.AddPolicy("Employer", policy => policy.RequireRole("Employer"));
+                options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
             });
 
             // 4. Configure API documentation (Swagger/OpenAPI)

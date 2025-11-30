@@ -21,9 +21,9 @@ export default defineNuxtPlugin(() => {
   // Add request interceptor for authentication tokens
   api.interceptors.request.use(
     (config) => {
-      // Get token from localStorage if available
+      // Get token from sessionStorage if available (isolated per browser tab)
       if (process.client) {
-        const token = localStorage.getItem('auth_token')
+        const token = sessionStorage.getItem('auth_token')
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
@@ -50,14 +50,19 @@ export default defineNuxtPlugin(() => {
       }
       
       if (error.response?.status === 401) {
-
-        console.log("this is the error: ", response?.status);
+        console.log("Unauthorized error - redirecting to login")
         if (process.client) {
-          localStorage.removeItem('auth_token')
+          sessionStorage.removeItem('auth_token')
+          sessionStorage.removeItem('user')
           if (window.location.pathname !== '/login') {
             window.location.href = '/login'
           }
         }
+      }
+      
+      if (error.response?.status === 403) {
+        console.error("Forbidden error - user may not have required role")
+        // Don't redirect on 403, let the component handle it
       }
       return Promise.reject(error)
     }
