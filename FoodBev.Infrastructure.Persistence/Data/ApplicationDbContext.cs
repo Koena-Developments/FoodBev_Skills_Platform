@@ -28,6 +28,7 @@ namespace FoodBev.Infrastructure.Persistence.Data // Using the .Data sub-namespa
         public DbSet<JobPosting> JobPostings { get; set; }
         public DbSet<ApplicationEntity> Applications { get; set; }
         public DbSet<SkillsProgrammeForm> SkillsProgrammeForms { get; set; }
+        public DbSet<TripartiteAgreement> TripartiteAgreements { get; set; }
 
         public DbSet<OfoCode> OfoCodes { get; set; }
         // public DbSet<SkillsProgrammeForm> SkillsProgrammes { get; set; }
@@ -106,6 +107,20 @@ namespace FoodBev.Infrastructure.Persistence.Data // Using the .Data sub-namespa
             modelBuilder.Entity<OfoCode>(entity =>
             {
                 entity.HasKey(o => o.OfoCodeID);
+            });
+
+            // --- 8. TripartiteAgreement Entity Configurations (One-to-One with Application) ---
+            modelBuilder.Entity<TripartiteAgreement>(entity =>
+            {
+                entity.HasKey(a => a.AgreementID);
+
+                entity.HasOne(a => a.Application)
+                    .WithOne()
+                    .HasForeignKey<TripartiteAgreement>(a => a.ApplicationID)
+                    .IsRequired()
+                    .OnDelete(DeleteBehavior.Cascade);
+
+                entity.HasIndex(a => a.ApplicationID).IsUnique();
             });
         }
         

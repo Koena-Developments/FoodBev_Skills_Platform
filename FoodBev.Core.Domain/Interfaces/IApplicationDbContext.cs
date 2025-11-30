@@ -14,6 +14,7 @@ namespace FoodBev.Core.Domain.Interfaces
         DbSet<JobPosting> JobPostings { get; }
         DbSet<ApplicationEntity> Applications { get; }
         DbSet<SkillsProgrammeForm> SkillsProgrammeForms { get; }
+        DbSet<TripartiteAgreement> TripartiteAgreements { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }

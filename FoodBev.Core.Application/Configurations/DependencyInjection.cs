@@ -19,6 +19,7 @@ namespace FoodBev.Core.Application.Configurations
             services.AddScoped<ILookupService, LookupService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<ISavedJobsService, SavedJobsService>();
+            services.AddScoped<ITripartiteAgreementService, TripartiteAgreementService>();
 
             return services;
         }

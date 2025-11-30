@@ -20,6 +20,7 @@ namespace FoodBev.API.Controllers
         private readonly IApplicationService _applicationService;
         private readonly IJobService _jobService;
         private readonly IEmployerService _employerService;
+        private readonly ITripartiteAgreementService _tripartiteAgreementService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ApplicationStatusController> _logger;
 
@@ -29,12 +30,14 @@ namespace FoodBev.API.Controllers
             IApplicationService applicationService, 
             IJobService jobService,
             IEmployerService employerService,
+            ITripartiteAgreementService tripartiteAgreementService,
             IUnitOfWork unitOfWork,
             ILogger<ApplicationStatusController> logger)
         {
             _applicationService = applicationService;
             _jobService = jobService;
             _employerService = employerService;
+            _tripartiteAgreementService = tripartiteAgreementService;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -103,6 +106,21 @@ namespace FoodBev.API.Controllers
             {
                 _logger.LogWarning("Failed to update application {ApplicationId} status - application not found", applicationId);
                 return NotFound(new { message = "Application not found." });
+            }
+
+            // Trigger: Create Tripartite Agreement when status changes to InterviewAccepted
+            if (dto.Status == ApplicationStatus.InterviewAccepted)
+            {
+                try
+                {
+                    await _tripartiteAgreementService.CreateAgreementAsync(applicationId);
+                    _logger.LogInformation("Created Tripartite Agreement for application {ApplicationId}", applicationId);
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogWarning(ex, "Failed to create Tripartite Agreement for application {ApplicationId}. Agreement may already exist.", applicationId);
+                    // Don't fail the status update if agreement creation fails
+                }
             }
 
             _logger.LogInformation("Successfully updated application {ApplicationId} status to {Status}", applicationId, dto.Status);

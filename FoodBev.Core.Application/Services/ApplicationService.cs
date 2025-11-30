@@ -190,6 +190,10 @@ namespace FoodBev.Application.Services
             _unitOfWork.Applications.Update(application);
             await _unitOfWork.CompleteAsync();
             
+            // Trigger Tripartite Agreement creation when status changes to InterviewAccepted
+            // Note: This will be handled by the controller to avoid circular dependency
+            // The controller will call ITripartiteAgreementService.CreateAgreementAsync if needed
+            
             return true;
         }
 

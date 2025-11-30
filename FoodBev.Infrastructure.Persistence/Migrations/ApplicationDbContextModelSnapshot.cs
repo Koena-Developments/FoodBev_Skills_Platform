@@ -298,6 +298,68 @@ namespace FoodBev.Infrastructure.Persistence.Migrations
                     b.ToTable("SkillsProgrammeForms");
                 });
 
+            modelBuilder.Entity("FoodBev.Core.Domain.Entities.TripartiteAgreement", b =>
+                {
+                    b.Property<int>("AgreementID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AdminNotes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("AdminReviewedByUserID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("AdminReviewedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ApplicationID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CandidateSignature")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("CandidateSignedByUserID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("CandidateSignedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("EmployerSignature")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("EmployerSignedByUserID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("EmployerSignedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("SubmittedToAdminDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TrainingProviderSignatureFileRef")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("TrainingProviderSignatureUploadDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("TrainingProviderSignatureUploadedByUserID")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("AgreementID");
+
+                    b.HasIndex("ApplicationID")
+                        .IsUnique();
+
+                    b.ToTable("TripartiteAgreements");
+                });
+
             modelBuilder.Entity("FoodBev.Core.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserID")
@@ -362,6 +424,17 @@ namespace FoodBev.Infrastructure.Persistence.Migrations
                     b.HasOne("FoodBev.Core.Domain.Entities.ApplicationEntity", "Application")
                         .WithOne("SkillsProgrammeForm")
                         .HasForeignKey("FoodBev.Core.Domain.Entities.SkillsProgrammeForm", "ApplicationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Application");
+                });
+
+            modelBuilder.Entity("FoodBev.Core.Domain.Entities.TripartiteAgreement", b =>
+                {
+                    b.HasOne("FoodBev.Core.Domain.Entities.ApplicationEntity", "Application")
+                        .WithOne()
+                        .HasForeignKey("FoodBev.Core.Domain.Entities.TripartiteAgreement", "ApplicationID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

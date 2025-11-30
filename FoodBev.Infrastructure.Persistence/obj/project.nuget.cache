@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "ZJj8upZaEjg=",
+  "dgSpecHash": "MDToTWmJmUM=",
   "success": true,
   "projectFilePath": "C:\\Users\\motsw\\Desktop\\FoodBev_Platform\\FoodBev.Infrastructure.Persistence\\FoodBev.Infrastructure.Persistence.csproj",
   "expectedPackageFiles": [
@@ -35,9 +35,14 @@
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.configuration\\9.0.0\\microsoft.extensions.configuration.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\9.0.0\\microsoft.extensions.configuration.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.configuration.binder\\9.0.0\\microsoft.extensions.configuration.binder.9.0.0.nupkg.sha512",
+    "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\9.0.0\\microsoft.extensions.configuration.fileextensions.9.0.0.nupkg.sha512",
+    "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.configuration.json\\9.0.0\\microsoft.extensions.configuration.json.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\9.0.0\\microsoft.extensions.dependencyinjection.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\9.0.0\\microsoft.extensions.dependencyinjection.abstractions.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.dependencymodel\\9.0.0\\microsoft.extensions.dependencymodel.9.0.0.nupkg.sha512",
+    "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\9.0.0\\microsoft.extensions.fileproviders.abstractions.9.0.0.nupkg.sha512",
+    "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\9.0.0\\microsoft.extensions.fileproviders.physical.9.0.0.nupkg.sha512",
+    "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\9.0.0\\microsoft.extensions.filesystemglobbing.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.identity.core\\9.0.0\\microsoft.extensions.identity.core.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.identity.stores\\9.0.0\\microsoft.extensions.identity.stores.9.0.0.nupkg.sha512",
     "C:\\Users\\motsw\\.nuget\\packages\\microsoft.extensions.logging\\9.0.0\\microsoft.extensions.logging.9.0.0.nupkg.sha512",

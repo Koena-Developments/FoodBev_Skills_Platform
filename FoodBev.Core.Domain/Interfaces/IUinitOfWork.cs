@@ -16,6 +16,7 @@ namespace FoodBev.Core.Domain.Interfaces
         IJobPostingRepository JobPostings { get; }
         IApplicationRepository Applications { get; }
         ISkillsProgrammeFormRepository SkillsProgrammeForms { get; }
+        ITripartiteAgreementRepository TripartiteAgreements { get; }
          IOfoCodeRepository OfoCodes { get; }
          ISkillsProgrammeRepository SkillsProgrammes { get; }
         // IApplicationRepository Applications { get; }

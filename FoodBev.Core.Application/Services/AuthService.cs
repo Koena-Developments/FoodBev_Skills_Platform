@@ -47,7 +47,8 @@ namespace FoodBev.Application.Services
             await _unitOfWork.CompleteAsync(); // Save the User to get the generated UserID
 
             // 3. Create Corresponding Detail Entity (Candidate/Employer)
-            if (user.UserID > 0)
+            // Note: Admin users don't need detail entities
+            if (user.UserID > 0 && registrationDto.UserType != UserType.Admin)
             {
                 if (registrationDto.UserType == UserType.Candidate)
                 {

@@ -20,6 +20,7 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
         private IJobPostingRepository _jobPostingRepository;
         private IApplicationRepository _applicationRepository;
         private ISkillsProgrammeFormRepository _skillsProgrammeFormRepository;
+        private ITripartiteAgreementRepository _tripartiteAgreementRepository;
         private ISkillsProgrammeRepository _skillsProgrammeRepository;
         private IOfoCodeRepository _ofoCodeRepository;
 
@@ -36,6 +37,7 @@ namespace FoodBev.Infrastructure.Persistence.Repositories
         public IJobPostingRepository JobPostings => _jobPostingRepository ??= new JobPostingRepository(_context);
         public IApplicationRepository Applications => _applicationRepository ??= new ApplicationRepository(_context);
         public ISkillsProgrammeFormRepository SkillsProgrammeForms => _skillsProgrammeFormRepository ??= new SkillsProgrammeFormRepository(_context);
+        public ITripartiteAgreementRepository TripartiteAgreements => _tripartiteAgreementRepository ??= new TripartiteAgreementRepository(_context);
         public ISkillsProgrammeRepository SkillsProgrammes => _skillsProgrammeRepository ??= new SkillsProgrammeFormRepository(_context);
         public IOfoCodeRepository OfoCodes => _ofoCodeRepository ??= new OfoCodeRepository(_context);
 

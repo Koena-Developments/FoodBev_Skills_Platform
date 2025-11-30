@@ -84,6 +84,8 @@ const handleLogin = async () => {
         router.push('/candidate')
       } else if (userType === 'employer') {
         router.push('/employer')
+      } else if (userType === 'admin') {
+        router.push('/admin')
       } else {
         router.push('/')
       }

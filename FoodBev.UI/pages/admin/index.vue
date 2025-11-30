@@ -1,30 +1,41 @@
 <template>
-  <div class="bg-white font-sans p-6">
+  <div class="min-h-screen bg-gray-50 p-6">
     <!-- Header -->
-    <header class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl font-bold text-gray-800">Dashboard</h1>
-      <div class="flex space-x-4">
-        <button class="p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-          <i class="fas fa-bell text-gray-600"></i>
-        </button>
-        <button class="p-2 bg-gray-100 rounded-full hover:bg-gray-200">
-          <i class="fas fa-cog text-gray-600"></i>
-        </button>
-      </div>
+    <header class="mb-6">
+      <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+      <p class="text-sm text-gray-600 mt-1">Overview of platform statistics and activity</p>
     </header>
 
+    <!-- Loading State -->
+    <div v-if="loading" class="text-center py-12">
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <p class="mt-2 text-gray-600">Loading dashboard data...</p>
+    </div>
+
+    <!-- Error State -->
+    <div v-else-if="error" class="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+      <p class="text-red-800">{{ error }}</p>
+      <button
+        @click="loadDashboardData"
+        class="mt-3 text-sm text-red-600 hover:text-red-800 underline"
+      >
+        Try again
+      </button>
+    </div>
+
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+    <div v-else class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
       <!-- Total Students -->
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-sm text-gray-500">Total Students</p>
-            <p class="text-2xl font-bold text-gray-800">3,241</p>
-            <p class="text-xs text-green-600 mt-1">+12% from last month</p>
+            <p class="text-sm text-gray-500">Total Candidates</p>
+            <p class="text-2xl font-bold text-gray-800">{{ stats.totalStudents || 0 }}</p>
           </div>
           <div class="p-3 bg-blue-100 rounded-full">
-            <i class="fas fa-users text-blue-600"></i>
+            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
           </div>
         </div>
       </div>
@@ -34,11 +45,12 @@
         <div class="flex justify-between items-start">
           <div>
             <p class="text-sm text-gray-500">Total Applications</p>
-            <p class="text-2xl font-bold text-gray-800">4,923</p>
-            <p class="text-xs text-green-600 mt-1">+8% from last month</p>
+            <p class="text-2xl font-bold text-gray-800">{{ stats.totalApplications || 0 }}</p>
           </div>
           <div class="p-3 bg-green-100 rounded-full">
-            <i class="fas fa-file-alt text-green-600"></i>
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
           </div>
         </div>
       </div>
@@ -47,12 +59,13 @@
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-sm text-gray-500">Active Students (24h)</p>
-            <p class="text-2xl font-bold text-gray-800">1,876</p>
-            <p class="text-xs text-green-600 mt-1">+5% from yesterday</p>
+            <p class="text-sm text-gray-500">Active Candidates (24h)</p>
+            <p class="text-2xl font-bold text-gray-800">{{ stats.activeStudents24h || 0 }}</p>
           </div>
           <div class="p-3 bg-yellow-100 rounded-full">
-            <i class="fas fa-user-clock text-yellow-600"></i>
+            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
           </div>
         </div>
       </div>
@@ -61,24 +74,25 @@
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <div class="flex justify-between items-start">
           <div>
-            <p class="text-sm text-gray-500">Funded Companies</p>
-            <p class="text-2xl font-bold text-gray-800">87</p>
-            <p class="text-xs text-green-600 mt-1">+3 new this week</p>
+            <p class="text-sm text-gray-500">Total Employers</p>
+            <p class="text-2xl font-bold text-gray-800">{{ stats.fundedCompanies || 0 }}</p>
           </div>
           <div class="p-3 bg-purple-100 rounded-full">
-            <i class="fas fa-building text-purple-600"></i>
+            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Charts Row -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+    <div v-if="!loading && !error" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <!-- Application Trends -->
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <h2 class="text-lg font-semibold mb-4">Application Trends</h2>
         <div class="h-40 flex items-center justify-center bg-gray-50 rounded">
-          <p class="text-gray-500">Line chart placeholder</p>
+          <p class="text-gray-500">Chart coming soon</p>
         </div>
       </div>
 
@@ -86,7 +100,7 @@
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <h2 class="text-lg font-semibold mb-4">Employer Engagement</h2>
         <div class="h-40 flex items-center justify-center bg-gray-50 rounded">
-          <p class="text-gray-500">Bar chart placeholder</p>
+          <p class="text-gray-500">Chart coming soon</p>
         </div>
       </div>
 
@@ -94,47 +108,49 @@
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
         <h2 class="text-lg font-semibold mb-4">Funding Overview</h2>
         <div class="h-40 flex items-center justify-center bg-gray-50 rounded">
-          <p class="text-gray-500">Area chart placeholder</p>
+          <p class="text-gray-500">Chart coming soon</p>
         </div>
       </div>
     </div>
 
     <!-- ✅ South African Map Section (Interactive with ECharts) -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
-      <h2 class="text-lg font-semibold mb-4">Student Demographics by Province</h2>
+    <div v-if="!loading && !error" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200 mb-6">
+      <h2 class="text-lg font-semibold mb-4">Candidate Demographics by Province</h2>
       <div class="h-64 bg-gray-50 rounded">
-        <v-chart :option="chartOptions" autoresize />
+        <ClientOnly>
+          <v-chart v-if="chartOptions" :option="chartOptions" autoresize />
+          <template #fallback>
+            <div class="flex items-center justify-center h-full">
+              <p class="text-gray-500">Loading map data...</p>
+            </div>
+          </template>
+        </ClientOnly>
       </div>
-      <p class="text-xs text-gray-500 mt-2 text-center">Hover over provinces to view student counts</p>
+      <p class="text-xs text-gray-500 mt-2 text-center">Hover over provinces to view candidate counts</p>
     </div>
 
     <!-- Recent Activity Table -->
-    <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
+    <div v-if="!loading && !error" class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
       <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
-      <div class="overflow-x-auto">
+      <div v-if="recentActivity.length === 0" class="text-center py-8 text-gray-500">
+        <p>No recent activity</p>
+      </div>
+      <div v-else class="overflow-x-auto">
         <table class="w-full text-sm">
           <thead>
             <tr class="border-b">
-              <th class="py-2 text-left">User</th>
-              <th class="py-2 text-left">Action</th>
-              <th class="py-2 text-left">Time</th>
+              <th class="py-2 text-left">Type</th>
+              <th class="py-2 text-left">Description</th>
+              <th class="py-2 text-left">Date</th>
             </tr>
           </thead>
           <tbody>
-            <tr class="border-b">
-              <td class="py-2">John Doe</td>
-              <td class="py-2">Applied to Job #123</td>
-              <td class="py-2">2 mins ago</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">Jane Smith</td>
-              <td class="py-2">Uploaded CV</td>
-              <td class="py-2">5 mins ago</td>
-            </tr>
-            <tr class="border-b">
-              <td class="py-2">ABC Corp</td>
-              <td class="py-2">Posted New Job</td>
-              <td class="py-2">10 mins ago</td>
+            <tr v-for="(activity, index) in recentActivity" :key="index" class="border-b">
+              <td class="py-2">
+                <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">{{ activity.type }}</span>
+              </td>
+              <td class="py-2">{{ activity.description }}</td>
+              <td class="py-2">{{ formatDate(activity.date) }}</td>
             </tr>
           </tbody>
         </table>
@@ -144,9 +160,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+// Page meta must be at the top
+definePageMeta({
+  layout: 'admin'
+})
+
+// Imports
+import { ref, onMounted, computed } from 'vue'
 import VChart from 'vue-echarts'
 import * as echarts from 'echarts'
+
+const loading = ref(true)
+const error = ref(null)
+const stats = ref({})
+const demographics = ref([])
+const recentActivity = ref([])
+
+// Initialize composable functions (will be set in onMounted for client-side only)
+let getDashboardStats = null
+let getDemographics = null
+let getRecentActivity = null
 
 // ===== South Africa GeoJSON (simplified for demo) =====
 const saGeo = {
@@ -227,71 +260,127 @@ const saGeo = {
   ],
 }
 
-// Register the map with ECharts
-echarts.registerMap('SouthAfrica', saGeo)
+// Register the map with ECharts (client-side only)
+if (process.client) {
+  echarts.registerMap('SouthAfrica', saGeo)
+}
 
-// Mock student data (replace with API later)
-const studentData = [
-  { name: 'Gauteng', value: 850 },
-  { name: 'Western Cape', value: 620 },
-  { name: 'KwaZulu-Natal', value: 580 },
-  { name: 'Eastern Cape', value: 320 },
-  { name: 'Free State', value: 180 },
-  { name: 'Northern Cape', value: 90 },
-  { name: 'Limpopo', value: 210 },
-  { name: 'Mpumalanga', value: 290 },
-  { name: 'North West', value: 240 },
-]
+// Chart options (computed from demographics data)
+const chartOptions = computed(() => {
+  const maxValue = demographics.value.length > 0 
+    ? Math.max(...demographics.value.map(d => d.count))
+    : 1000
 
-// Chart options
-const chartOptions = ref({
-  tooltip: {
-    trigger: 'item',
-    formatter: '{b}: {c} students',
-    backgroundColor: 'rgba(0,0,0,0.7)',
-    textStyle: { color: '#fff' },
-  },
-  visualMap: {
-    min: 0,
-    max: 1000,
-    text: ['High', 'Low'],
-    realtime: false,
-    calculable: true,
-    inRange: {
-      color: ['#e6f7ff', '#0050b3'],
+  return {
+    tooltip: {
+      trigger: 'item',
+      formatter: '{b}: {c} candidates',
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      textStyle: { color: '#fff' },
     },
-    orient: 'horizontal',
-    left: 'center',
-    bottom: '5px',
-  },
-  series: [
-    {
-      type: 'map',
-      map: 'SouthAfrica',
-      roam: false,
-      label: {
-        show: true,
-        fontSize: 10,
-        color: '#333',
+    visualMap: {
+      min: 0,
+      max: maxValue || 1000,
+      text: ['High', 'Low'],
+      realtime: false,
+      calculable: true,
+      inRange: {
+        color: ['#e6f7ff', '#0050b3'],
       },
-      itemStyle: {
-        areaColor: '#f0f0f0',
-        borderColor: '#666',
-        borderWidth: 1,
-      },
-      emphasis: {
+      orient: 'horizontal',
+      left: 'center',
+      bottom: '5px',
+    },
+    series: [
+      {
+        type: 'map',
+        map: 'SouthAfrica',
+        roam: false,
         label: {
           show: true,
-          fontSize: 12,
-          fontWeight: 'bold',
+          fontSize: 10,
+          color: '#333',
         },
         itemStyle: {
-          areaColor: '#0050b3',
+          areaColor: '#f0f0f0',
+          borderColor: '#666',
+          borderWidth: 1,
         },
+        emphasis: {
+          label: {
+            show: true,
+            fontSize: 12,
+            fontWeight: 'bold',
+          },
+          itemStyle: {
+            areaColor: '#0050b3',
+          },
+        },
+        data: demographics.value.map(d => ({
+          name: d.province,
+          value: d.count
+        })),
       },
-       studentData,
-    },
-  ],
+    ],
+  }
+})
+
+const loadDashboardData = async () => {
+  if (!getDashboardStats || !getDemographics || !getRecentActivity) {
+    return // Wait for composables to be initialized
+  }
+
+  loading.value = true
+  error.value = null
+
+  try {
+    // Load stats
+    const statsResult = await getDashboardStats()
+    if (statsResult.success) {
+      stats.value = statsResult.data
+    } else {
+      error.value = statsResult.error
+    }
+
+    // Load demographics
+    const demographicsResult = await getDemographics()
+    if (demographicsResult.success) {
+      demographics.value = demographicsResult.data || []
+    }
+
+    // Load recent activity
+    const activityResult = await getRecentActivity(10)
+    if (activityResult.success) {
+      recentActivity.value = activityResult.data || []
+    }
+  } catch (err) {
+    error.value = 'Failed to load dashboard data'
+    console.error('Dashboard load error:', err)
+  } finally {
+    loading.value = false
+  }
+}
+
+const formatDate = (dateString) => {
+  if (!dateString) return 'N/A'
+  const date = new Date(dateString)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  })
+}
+
+onMounted(() => {
+  // Initialize composables on client side only
+  const adminComposables = useAdmin()
+  getDashboardStats = adminComposables.getDashboardStats
+  getDemographics = adminComposables.getDemographics
+  getRecentActivity = adminComposables.getRecentActivity
+  
+  loadDashboardData()
 })
 </script>
 
