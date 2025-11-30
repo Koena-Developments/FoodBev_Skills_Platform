@@ -146,6 +146,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'candidate'
+})
+
 import { ref, onMounted } from 'vue'
 import { useAgreements } from '~/composables/useAgreements'
 

@@ -135,6 +135,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'candidate'
+})
 const { getApplications, respondToInterview: respondInterview } = useCandidate()
 
 const applications = ref([])

@@ -172,6 +172,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'employer'
+})
 const { getProfile, updateProfile, uploadLogo: uploadLogoAction } = useEmployer()
 const router = useRouter()
 

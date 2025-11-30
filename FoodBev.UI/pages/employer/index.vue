@@ -282,6 +282,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'employer'
+})
 const { getProfile, getJobs, createJob, updateJob, deleteJob: deleteJobAction } = useEmployer()
 
 const loading = ref(true)

@@ -8,6 +8,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'employer'
+})
 const pageTitle = 'Post a Job'
 </script>
 

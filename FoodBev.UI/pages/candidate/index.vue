@@ -202,6 +202,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'candidate'
+})
 const { getProfile, uploadDocument, getMatchingJobs, getApplications } = useCandidate()
 
 const profile = ref(null)

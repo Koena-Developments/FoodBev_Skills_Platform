@@ -296,6 +296,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'candidate'
+})
 const { getProfile, updateProfile } = useCandidate()
 const router = useRouter()
 

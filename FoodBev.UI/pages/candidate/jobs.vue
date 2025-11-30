@@ -92,6 +92,9 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'candidate'
+})
 const { getMatchingJobs, applyToJob: applyJob, saveJob: saveJobAction, getApplications } = useCandidate()
 
 const jobs = ref([])

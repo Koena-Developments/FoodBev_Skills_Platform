@@ -203,6 +203,10 @@
 </template>
 
 <script setup>
+definePageMeta({
+  layout: 'employer'
+})
+
 import { ref, onMounted } from 'vue'
 import { useAgreements } from '~/composables/useAgreements'
 
