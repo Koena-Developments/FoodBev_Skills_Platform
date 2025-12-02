@@ -65,8 +65,8 @@ namespace FoodBev.API.Controllers
             if (!ModelState.IsValid)
             {
                 var errors = ModelState
-                    .Where(x => x.Value.Errors.Count > 0)
-                    .SelectMany(x => x.Value.Errors.Select(e => $"{x.Key}: {e.ErrorMessage}"))
+                    .Where(x => x.Value != null && x.Value.Errors.Count > 0)
+                    .SelectMany(x => x.Value!.Errors.Select(e => $"{x.Key}: {e.ErrorMessage}"))
                     .ToList();
                 
                 _logger.LogWarning("ModelState validation failed for applicationId: {ApplicationId}. Errors: {Errors}", 
@@ -183,7 +183,7 @@ namespace FoodBev.API.Controllers
     public class ScheduleInterviewDto
     {
         public DateTime InterviewDate { get; set; }
-        public string InterviewVenue { get; set; }
+        public string InterviewVenue { get; set; } = string.Empty;
     }
 
     public class UpdateInterviewResponseDto

@@ -96,4 +96,10 @@ namespace FoodBev.Application.DTOs.AdminManagement
         public int? CandidateId { get; set; }
         public int? JobId { get; set; }
     }
+
+    public class ApplicationTrendDto
+    {
+        public string Date { get; set; } = string.Empty; // Format: "YYYY-MM-DD"
+        public int Count { get; set; }
+    }
 }

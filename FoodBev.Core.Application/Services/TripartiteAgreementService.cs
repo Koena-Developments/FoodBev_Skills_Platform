@@ -203,6 +203,91 @@ namespace FoodBev.Application.Services
             return true;
         }
 
+        public async Task<CompleteFormDetailsDto?> GetCompleteFormDetailsAsync(int agreementId)
+        {
+            var agreement = await _unitOfWork.TripartiteAgreements.GetByIdAsync(agreementId);
+            if (agreement == null)
+            {
+                return null;
+            }
+
+            var application = agreement.Application ?? await _unitOfWork.Applications.GetByIdAsync(agreement.ApplicationID);
+            if (application == null)
+            {
+                return null;
+            }
+
+            var job = application.Job ?? await _unitOfWork.JobPostings.GetByIdAsync(application.JobID);
+            var candidate = application.Candidate ?? await _unitOfWork.Candidates.GetByIdAsync(application.CandidateID);
+            var employer = job != null ? await _unitOfWork.Employers.GetByIdAsync(job.EmployerID) : null;
+
+            return new CompleteFormDetailsDto
+            {
+                // Agreement Information
+                AgreementID = agreement.AgreementID,
+                ApplicationID = agreement.ApplicationID,
+                Status = agreement.Status,
+                CreatedDate = agreement.CreatedDate,
+                SubmittedToAdminDate = agreement.SubmittedToAdminDate,
+                AdminReviewedDate = agreement.AdminReviewedDate,
+                AdminNotes = agreement.AdminNotes,
+
+                // Signatures
+                CandidateSignature = agreement.CandidateSignature,
+                CandidateSignedDate = agreement.CandidateSignedDate,
+                EmployerSignature = agreement.EmployerSignature,
+                EmployerSignedDate = agreement.EmployerSignedDate,
+                TrainingProviderSignatureFileRef = agreement.TrainingProviderSignatureFileRef,
+                TrainingProviderSignatureUploadDate = agreement.TrainingProviderSignatureUploadDate,
+
+                // Job Information
+                JobID = job?.JobID ?? 0,
+                JobTitle = job?.JobTitle ?? "Unknown",
+                JobDescription = job?.JobDescription,
+                OFO_Code_Required = job?.OFO_Code_Required,
+
+                // Candidate Details
+                CandidateID = candidate?.CandidateID ?? 0,
+                CandidateFirstName = candidate?.FirstName ?? string.Empty,
+                CandidateLastName = candidate?.LastName ?? string.Empty,
+                CandidateIDNumber = candidate?.IDNumber,
+                CandidateDateOfBirth = candidate?.DateOfBirth,
+                CandidateRace = candidate?.Race,
+                CandidateGender = candidate?.Gender,
+                CandidateIsDisabled = candidate?.IsDisabled ?? false,
+                CandidateDisabilityDetails = candidate?.DisabilityDetails,
+                CandidateNationality = candidate?.Nationality,
+                CandidateContactNumber = candidate?.ContactNumber,
+                CandidateEmail = candidate?.Email,
+                CandidatePhysicalAddress = candidate?.PhysicalAddress,
+                CandidatePostalCode = candidate?.PostalCode,
+                CandidateProvince = candidate?.Province,
+                CandidateHighestQualification = candidate?.HighestQualification,
+                CandidateInstitutionName = candidate?.InstitutionName,
+                CandidateQualificationYear = candidate?.QualificationYear,
+                CandidateEmploymentStatus = candidate?.EmploymentStatus,
+                CandidateOFO_Code = candidate?.OFO_Code,
+                CandidateID_Document_Ref = candidate?.ID_Document_Ref,
+
+                // Employer Details
+                EmployerID = employer?.EmployerID ?? 0,
+                EmployerCompanyName = employer?.CompanyName ?? "Unknown",
+                EmployerLevyNumber = employer?.LevyNumber,
+                EmployerLNumber = employer?.LNumber,
+                EmployerTNumber = employer?.TNumber,
+                EmployerSDFName = employer?.SDFName,
+                EmployerSDFEmail = employer?.SDFEmail,
+                EmployerSDFContactNumber = employer?.SDFContactNumber,
+
+                // Application Details
+                ApplicationDateApplied = application.DateApplied,
+                ApplicationStatus = application.Status,
+                ApplicationInterviewDate = application.InterviewDate,
+                ApplicationInterviewVenue = application.InterviewVenue,
+                ApplicationCV_File_Ref = application.CV_File_Ref
+            };
+        }
+
         private async Task<TripartiteAgreementDto> MapToDto(TripartiteAgreement agreement)
         {
             var application = agreement.Application ?? await _unitOfWork.Applications.GetByIdAsync(agreement.ApplicationID);

@@ -43,10 +43,25 @@ export const useAdmin = () => {
     }
   }
 
+  // Get application trends
+  const getApplicationTrends = async (days = 30) => {
+    try {
+      const response = await api.get(`/admin/application-trends?days=${days}`)
+      return { success: true, data: response.data }
+    } catch (error) {
+      console.error('Get application trends error:', error)
+      return {
+        success: false,
+        error: error.response?.data?.message || error.message || 'Failed to fetch application trends'
+      }
+    }
+  }
+
   return {
     getDashboardStats,
     getDemographics,
-    getRecentActivity
+    getRecentActivity,
+    getApplicationTrends
   }
 }
 

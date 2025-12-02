@@ -63,7 +63,7 @@
                 <p v-if="profile?.highestQualification" class="text-sm text-gray-600">
                   {{ profile.highestQualification }}
                 </p>
-                <p v-if="profile?.ofO_Code" class="text-sm text-blue-600 mt-1">
+                <p v-if="profile?.ofO_Code" class="text-sm text-foodbev-blue mt-1">
                   OFO Code: {{ profile.ofO_Code }}
                 </p>
               </div>
@@ -79,14 +79,14 @@
             <div class="mt-3 flex gap-2">
               <NuxtLink
                 to="/candidate/jobs"
-                class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                class="text-sm text-foodbev-blue hover:text-opacity-80 font-medium"
               >
                 View Matching Jobs ({{ jobsCount }})
               </NuxtLink>
               <span class="text-gray-400">•</span>
               <NuxtLink
                 to="/candidate/applications"
-                class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+                class="text-sm text-foodbev-blue hover:text-opacity-80 font-medium"
               >
                 My Applications ({{ applicationsCount }})
               </NuxtLink>
@@ -97,13 +97,13 @@
         <div class="flex flex-col gap-3 mb-6">
           <NuxtLink
             to="/candidate/jobs"
-            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 px-4 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center"
+            class="w-full bg-foodbev-blue hover:bg-opacity-90 text-white font-medium py-2.5 px-4 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-foodbev-blue focus:ring-offset-2 text-center"
           >
             Browse Jobs
           </NuxtLink>
           <NuxtLink
             to="/candidate/profile"
-            class="w-full border border-blue-600 text-blue-600 hover:bg-blue-50 font-medium py-2.5 px-4 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 text-center"
+            class="w-full border border-foodbev-blue text-foodbev-blue hover:bg-foodbev-platinum font-medium py-2.5 px-4 rounded-lg transition focus:outline-none focus:ring-2 focus:ring-foodbev-blue focus:ring-offset-2 text-center"
           >
             Complete Profile
           </NuxtLink>
@@ -151,10 +151,10 @@
                 </svg>
                 <span class="text-sm text-gray-700">Document uploaded</span>
               </div>
-              <a
+                <a
                 :href="`http://localhost:5259${profile.iD_Document_Ref}`"
                 target="_blank"
-                class="text-sm text-blue-600 hover:text-blue-800"
+                class="text-sm text-foodbev-blue hover:text-opacity-80"
               >
                 View
               </a>
@@ -171,7 +171,7 @@
               <button
                 @click="$refs.fileInput?.click()"
                 :disabled="uploading"
-                class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                class="w-full px-4 py-2 bg-foodbev-blue text-white rounded-lg hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {{ uploading ? 'Uploading...' : 'Upload ID Document' }}
               </button>
@@ -187,11 +187,11 @@
           </div>
           <div class="px-4 py-4 grid grid-cols-2 gap-4">
             <div>
-              <p class="text-2xl font-bold text-blue-600">{{ jobsCount }}</p>
+              <p class="text-2xl font-bold text-foodbev-blue">{{ jobsCount }}</p>
               <p class="text-sm text-gray-600">Matching Jobs</p>
             </div>
             <div>
-              <p class="text-2xl font-bold text-green-600">{{ applicationsCount }}</p>
+              <p class="text-2xl font-bold text-foodbev-red">{{ applicationsCount }}</p>
               <p class="text-sm text-gray-600">Applications</p>
             </div>
           </div>

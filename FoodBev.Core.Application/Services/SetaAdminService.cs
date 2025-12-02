@@ -231,5 +231,44 @@ namespace FoodBev.Application.Services
                 })
                 .ToList();
         }
+
+        public async Task<IEnumerable<ApplicationTrendDto>> GetApplicationTrendsAsync(int days = 30)
+        {
+            var allApplications = await _unitOfWork.Applications.GetAllAsync();
+            var cutoffDate = DateTime.UtcNow.AddDays(-days).Date;
+            
+            // Group applications by date (only date part, not time)
+            var trends = allApplications
+                .Where(a => a.DateApplied.Date >= cutoffDate)
+                .GroupBy(a => a.DateApplied.Date)
+                .Select(g => new ApplicationTrendDto
+                {
+                    Date = g.Key.ToString("yyyy-MM-dd"),
+                    Count = g.Count()
+                })
+                .OrderBy(x => x.Date)
+                .ToList();
+
+            // Fill in missing dates with 0 counts
+            var result = new List<ApplicationTrendDto>();
+            var currentDate = cutoffDate;
+            var today = DateTime.UtcNow.Date;
+            
+            while (currentDate <= today)
+            {
+                var dateStr = currentDate.ToString("yyyy-MM-dd");
+                var existing = trends.FirstOrDefault(t => t.Date == dateStr);
+                
+                result.Add(existing ?? new ApplicationTrendDto
+                {
+                    Date = dateStr,
+                    Count = 0
+                });
+                
+                currentDate = currentDate.AddDays(1);
+            }
+            
+            return result;
+        }
     }
 }

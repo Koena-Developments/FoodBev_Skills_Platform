@@ -53,6 +53,11 @@ namespace FoodBev.Application.Interfaces
         /// Admin reviews and approves/rejects the agreement.
         /// </summary>
         Task<bool> ReviewAgreementAsync(int agreementId, string userId, bool approved, string? notes);
+
+        /// <summary>
+        /// Gets complete form details including all candidate, employer, and agreement information for admin view and PDF generation.
+        /// </summary>
+        Task<CompleteFormDetailsDto?> GetCompleteFormDetailsAsync(int agreementId);
     }
 }
 

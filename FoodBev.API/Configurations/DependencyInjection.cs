@@ -28,6 +28,9 @@ namespace FoodBev.API.Configurations
             // 2. Add Core Application Services (Business Logic Services, Validators, Mappers)
             services.AddCoreApplicationServices();
 
+            // 2.5. Add API-specific services
+            services.AddScoped<FoodBev.API.Services.PdfGenerationService>();
+
             // 3. Configure JWT Authentication
             var jwtSettings = configuration.GetSection("JwtSettings");
             var secretKey = jwtSettings["SecretKey"] ?? "YourSuperSecretKeyThatShouldBeAtLeast32CharactersLongForHS256";

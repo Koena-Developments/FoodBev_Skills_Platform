@@ -56,6 +56,16 @@ namespace FoodBev.API.Controllers
             var activities = await _adminService.GetRecentActivityAsync(limit);
             return Ok(activities);
         }
+
+        /// <summary>
+        /// Gets application trends grouped by date (last 30 days by default).
+        /// </summary>
+        [HttpGet("application-trends")]
+        public async Task<IActionResult> GetApplicationTrends([FromQuery] int days = 30)
+        {
+            var trends = await _adminService.GetApplicationTrendsAsync(days);
+            return Ok(trends);
+        }
     }
 }
 

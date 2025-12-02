@@ -81,6 +81,17 @@
                 View Details
               </button>
               <button
+                @click="downloadPdf(agreement.agreementID)"
+                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+                :disabled="downloadingPdf === agreement.agreementID"
+              >
+                <svg v-if="downloadingPdf !== agreement.agreementID" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span v-if="downloadingPdf === agreement.agreementID">Downloading...</span>
+                <span v-else>Download PDF</span>
+              </button>
+              <button
                 v-if="agreement.status === 'SubmittedToAdmin'"
                 @click="openReviewModal(agreement)"
                 class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -115,10 +126,87 @@
 
           <div v-if="selectedAgreement" class="space-y-6">
             <div class="bg-gray-50 p-4 rounded-lg">
-              <h3 class="font-semibold text-gray-900">{{ selectedAgreement.jobTitle }}</h3>
-              <p class="text-sm text-gray-600 mt-1">
-                Employer: {{ selectedAgreement.employerCompanyName }} | Candidate: {{ selectedAgreement.candidateName }}
-              </p>
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-semibold text-gray-900">{{ selectedAgreement.jobTitle }}</h3>
+                  <p class="text-sm text-gray-600 mt-1">
+                    Employer: {{ selectedAgreement.employerCompanyName }} | Candidate: {{ selectedAgreement.candidateName }}
+                  </p>
+                </div>
+                <button
+                  @click="downloadPdf(selectedAgreement.agreementID)"
+                  class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition flex items-center gap-2"
+                  :disabled="downloadingPdf === selectedAgreement.agreementID"
+                >
+                  <svg v-if="downloadingPdf !== selectedAgreement.agreementID" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span v-if="downloadingPdf === selectedAgreement.agreementID">Downloading...</span>
+                  <span v-else>Download PDF</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Complete Form Details -->
+            <div v-if="completeFormDetails" class="space-y-4">
+              <!-- Candidate Details Section -->
+              <div class="border rounded-lg p-4 bg-white">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Candidate Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div><span class="font-medium">Name:</span> {{ completeFormDetails.candidateFirstName }} {{ completeFormDetails.candidateLastName }}</div>
+                  <div><span class="font-medium">ID Number:</span> {{ completeFormDetails.candidateIDNumber || 'N/A' }}</div>
+                  <div v-if="completeFormDetails.candidateDateOfBirth"><span class="font-medium">Date of Birth:</span> {{ formatDate(completeFormDetails.candidateDateOfBirth) }}</div>
+                  <div><span class="font-medium">Email:</span> {{ completeFormDetails.candidateEmail || 'N/A' }}</div>
+                  <div><span class="font-medium">Contact:</span> {{ completeFormDetails.candidateContactNumber || 'N/A' }}</div>
+                  <div><span class="font-medium">Address:</span> {{ completeFormDetails.candidatePhysicalAddress || 'N/A' }}</div>
+                  <div><span class="font-medium">Postal Code:</span> {{ completeFormDetails.candidatePostalCode || 'N/A' }}</div>
+                  <div><span class="font-medium">Province:</span> {{ completeFormDetails.candidateProvince || 'N/A' }}</div>
+                  <div><span class="font-medium">Race:</span> {{ completeFormDetails.candidateRace || 'N/A' }}</div>
+                  <div><span class="font-medium">Gender:</span> {{ completeFormDetails.candidateGender || 'N/A' }}</div>
+                  <div><span class="font-medium">Nationality:</span> {{ completeFormDetails.candidateNationality || 'N/A' }}</div>
+                  <div><span class="font-medium">Employment Status:</span> {{ completeFormDetails.candidateEmploymentStatus || 'N/A' }}</div>
+                  <div><span class="font-medium">OFO Code:</span> {{ completeFormDetails.candidateOFO_Code || 'N/A' }}</div>
+                  <div><span class="font-medium">Highest Qualification:</span> {{ completeFormDetails.candidateHighestQualification || 'N/A' }}</div>
+                  <div v-if="completeFormDetails.candidateInstitutionName"><span class="font-medium">Institution:</span> {{ completeFormDetails.candidateInstitutionName }}</div>
+                  <div v-if="completeFormDetails.candidateQualificationYear"><span class="font-medium">Qualification Year:</span> {{ completeFormDetails.candidateQualificationYear }}</div>
+                  <div v-if="completeFormDetails.candidateIsDisabled"><span class="font-medium">Disability:</span> {{ completeFormDetails.candidateDisabilityDetails || 'Details not provided' }}</div>
+                </div>
+              </div>
+
+              <!-- Employer Details Section -->
+              <div class="border rounded-lg p-4 bg-white">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Employer Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div><span class="font-medium">Company Name:</span> {{ completeFormDetails.employerCompanyName }}</div>
+                  <div v-if="completeFormDetails.employerLevyNumber"><span class="font-medium">Levy Number:</span> {{ completeFormDetails.employerLevyNumber }}</div>
+                  <div v-if="completeFormDetails.employerLNumber"><span class="font-medium">L Number:</span> {{ completeFormDetails.employerLNumber }}</div>
+                  <div v-if="completeFormDetails.employerTNumber"><span class="font-medium">T Number:</span> {{ completeFormDetails.employerTNumber }}</div>
+                  <div v-if="completeFormDetails.employerSDFName"><span class="font-medium">SDF Name:</span> {{ completeFormDetails.employerSDFName }}</div>
+                  <div v-if="completeFormDetails.employerSDFEmail"><span class="font-medium">SDF Email:</span> {{ completeFormDetails.employerSDFEmail }}</div>
+                  <div v-if="completeFormDetails.employerSDFContactNumber"><span class="font-medium">SDF Contact:</span> {{ completeFormDetails.employerSDFContactNumber }}</div>
+                </div>
+              </div>
+
+              <!-- Job Information Section -->
+              <div class="border rounded-lg p-4 bg-white">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Job Information</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div><span class="font-medium">Job Title:</span> {{ completeFormDetails.jobTitle }}</div>
+                  <div v-if="completeFormDetails.OFO_Code_Required"><span class="font-medium">Required OFO Code:</span> {{ completeFormDetails.OFO_Code_Required }}</div>
+                  <div v-if="completeFormDetails.jobDescription" class="md:col-span-2"><span class="font-medium">Description:</span> {{ completeFormDetails.jobDescription }}</div>
+                </div>
+              </div>
+
+              <!-- Application Details Section -->
+              <div class="border rounded-lg p-4 bg-white">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3">Application Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                  <div><span class="font-medium">Date Applied:</span> {{ formatDate(completeFormDetails.applicationDateApplied) }}</div>
+                  <div><span class="font-medium">Status:</span> {{ completeFormDetails.applicationStatus }}</div>
+                  <div v-if="completeFormDetails.applicationInterviewDate"><span class="font-medium">Interview Date:</span> {{ formatDate(completeFormDetails.applicationInterviewDate) }}</div>
+                  <div v-if="completeFormDetails.applicationInterviewVenue"><span class="font-medium">Interview Venue:</span> {{ completeFormDetails.applicationInterviewVenue }}</div>
+                </div>
+              </div>
             </div>
 
             <!-- Signatures Review -->
@@ -240,8 +328,10 @@ const loading = ref(true)
 const error = ref(null)
 const showReviewModal = ref(false)
 const selectedAgreement = ref(null)
+const completeFormDetails = ref(null)
 const reviewNotes = ref('')
 const reviewing = ref(false)
+const downloadingPdf = ref(null)
 
 const loadAgreements = async () => {
   loading.value = true
@@ -257,16 +347,55 @@ const loadAgreements = async () => {
   loading.value = false
 }
 
-const openReviewModal = (agreement) => {
+const openReviewModal = async (agreement) => {
   selectedAgreement.value = agreement
   showReviewModal.value = true
   reviewNotes.value = ''
+  
+  // Load complete form details
+  try {
+    const { api } = useApi()
+    const response = await api.get(`/admin/agreements/${agreement.agreementID}/complete-details`)
+    if (response.data) {
+      completeFormDetails.value = response.data
+    }
+  } catch (error) {
+    console.error('Error loading complete form details:', error)
+    completeFormDetails.value = null
+  }
 }
 
 const closeReviewModal = () => {
   showReviewModal.value = false
   selectedAgreement.value = null
+  completeFormDetails.value = null
   reviewNotes.value = ''
+}
+
+const downloadPdf = async (agreementId) => {
+  try {
+    downloadingPdf.value = agreementId
+    const { api } = useApi()
+    const response = await api.get(`/admin/agreements/${agreementId}/download-pdf`, {
+      responseType: 'blob'
+    })
+    
+    // Create a blob URL and trigger download
+    const blob = new Blob([response.data], { type: 'application/pdf' })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `Agreement_${agreementId}_${new Date().toISOString().split('T')[0]}.pdf`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  } catch (error) {
+    console.error('Error downloading PDF:', error)
+    alert('Failed to download PDF. Please try again.')
+  } finally {
+    downloadingPdf.value = null
+  }
 }
 
 const approveAgreement = async () => {

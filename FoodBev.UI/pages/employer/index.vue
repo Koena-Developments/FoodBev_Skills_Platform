@@ -10,7 +10,7 @@
           </div>
           <button
             @click="showCreateJobModal = true"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            class="px-4 py-2 bg-foodbev-blue text-white rounded-lg hover:bg-opacity-90 transition"
           >
             + Post New Job
           </button>
@@ -21,7 +21,7 @@
     <!-- Loading State -->
     <div v-if="loading" class="max-w-7xl mx-auto px-4 py-8">
       <div class="text-center">
-        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-foodbev-blue"></div>
         <p class="mt-2 text-gray-600">Loading...</p>
       </div>
     </div>
@@ -47,7 +47,7 @@
         </div>
         <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 class="text-sm font-medium text-gray-600">Total Applicants</h3>
-          <p class="text-3xl font-bold text-blue-600 mt-2">{{ totalApplicants }}</p>
+          <p class="text-3xl font-bold text-foodbev-blue mt-2">{{ totalApplicants }}</p>
         </div>
       </div>
 
@@ -61,7 +61,7 @@
           </div>
           <NuxtLink
             to="/employer/profile"
-            class="text-sm text-blue-600 hover:text-blue-800 font-medium"
+            class="text-sm text-foodbev-blue hover:text-opacity-80 font-medium"
           >
             Edit Profile
           </NuxtLink>
@@ -92,7 +92,7 @@
           <p class="text-gray-600 mb-4">You haven't posted any jobs yet.</p>
           <button
             @click="showCreateJobModal = true"
-            class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            class="px-4 py-2 bg-foodbev-blue text-white rounded-lg hover:bg-opacity-90 transition"
           >
             Post Your First Job
           </button>
@@ -111,7 +111,7 @@
                 <p class="text-sm text-gray-500 mt-2 line-clamp-2">{{ job.jobDescription }}</p>
                 
                 <div class="mt-4 flex flex-wrap gap-2">
-                  <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                  <span class="px-2 py-1 bg-foodbev-platinum text-foodbev-blue text-xs rounded font-medium">
                     OFO: {{ job.ofO_Code_Required }}
                   </span>
                   <span v-if="job.preferredProvince" class="px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded">
@@ -132,7 +132,7 @@
               <div class="ml-4 flex flex-col gap-2">
                 <NuxtLink
                   :to="`/employer/jobs/${job.jobID}/applicants`"
-                  class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-center text-sm"
+                  class="px-4 py-2 bg-foodbev-blue text-white rounded-lg hover:bg-opacity-90 transition text-center text-sm"
                 >
                   View Applicants ({{ job.applicantCount || 0 }})
                 </NuxtLink>
@@ -176,7 +176,7 @@
                 v-model="jobForm.jobTitle"
                 type="text"
                 required
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-foodbev-blue focus:border-foodbev-blue"
                 placeholder="e.g., Food & Beverage Manager"
               />
             </div>
@@ -188,7 +188,7 @@
                 v-model="jobForm.jobDescription"
                 required
                 rows="4"
-                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-foodbev-blue focus:border-foodbev-blue"
                 placeholder="Describe the role, responsibilities, and requirements..."
               ></textarea>
             </div>
@@ -202,7 +202,7 @@
                   type="text"
                   required
                   maxlength="10"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-foodbev-blue focus:border-foodbev-blue"
                   placeholder="e.g., 123456"
                 />
                 <p class="mt-1 text-xs text-gray-500">Only candidates with this OFO code will see this job</p>
@@ -213,7 +213,7 @@
                 <select
                   id="preferredProvince"
                   v-model="jobForm.preferredProvince"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-foodbev-blue focus:border-foodbev-blue"
                 >
                   <option value="">Any Province</option>
                   <option value="Gauteng">Gauteng</option>
@@ -238,7 +238,7 @@
                   type="date"
                   required
                   :min="new Date().toISOString().split('T')[0]"
-                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                  class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-foodbev-blue focus:border-foodbev-blue"
                 />
               </div>
 
@@ -247,7 +247,7 @@
                   <input
                     v-model="jobForm.isBursary"
                     type="checkbox"
-                    class="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    class="rounded border-gray-300 text-foodbev-blue focus:ring-foodbev-blue"
                   />
                   <span class="ml-2 text-sm text-gray-700">This is a bursary opportunity</span>
                 </label>
@@ -269,7 +269,7 @@
               <button
                 type="submit"
                 :disabled="savingJob"
-                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                class="px-4 py-2 bg-foodbev-blue text-white rounded-lg hover:bg-opacity-90 disabled:opacity-50 disabled:cursor-not-allowed transition"
               >
                 {{ savingJob ? 'Saving...' : (editingJob ? 'Update Job' : 'Post Job') }}
               </button>

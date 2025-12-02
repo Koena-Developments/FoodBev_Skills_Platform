@@ -2,13 +2,13 @@
   <div class="min-h-screen bg-gray-50 p-6">
     <!-- Header -->
     <header class="mb-6">
-      <h1 class="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
+      <h1 class="text-2xl font-bold text-foodbev-blue">Admin Dashboard</h1>
       <p class="text-sm text-gray-600 mt-1">Overview of platform statistics and activity</p>
     </header>
 
     <!-- Loading State -->
     <div v-if="loading" class="text-center py-12">
-      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-foodbev-blue"></div>
       <p class="mt-2 text-gray-600">Loading dashboard data...</p>
     </div>
 
@@ -32,8 +32,8 @@
             <p class="text-sm text-gray-500">Total Candidates</p>
             <p class="text-2xl font-bold text-gray-800">{{ stats.totalStudents || 0 }}</p>
           </div>
-          <div class="p-3 bg-blue-100 rounded-full">
-            <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-3 bg-foodbev-platinum rounded-full">
+            <svg class="w-6 h-6 text-foodbev-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
             </svg>
           </div>
@@ -47,8 +47,8 @@
             <p class="text-sm text-gray-500">Total Applications</p>
             <p class="text-2xl font-bold text-gray-800">{{ stats.totalApplications || 0 }}</p>
           </div>
-          <div class="p-3 bg-green-100 rounded-full">
-            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-3 bg-foodbev-platinum rounded-full">
+            <svg class="w-6 h-6 text-foodbev-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
@@ -62,8 +62,8 @@
             <p class="text-sm text-gray-500">Active Candidates (24h)</p>
             <p class="text-2xl font-bold text-gray-800">{{ stats.activeStudents24h || 0 }}</p>
           </div>
-          <div class="p-3 bg-yellow-100 rounded-full">
-            <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-3 bg-foodbev-platinum rounded-full">
+            <svg class="w-6 h-6 text-foodbev-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
@@ -77,8 +77,8 @@
             <p class="text-sm text-gray-500">Total Employers</p>
             <p class="text-2xl font-bold text-gray-800">{{ stats.fundedCompanies || 0 }}</p>
           </div>
-          <div class="p-3 bg-purple-100 rounded-full">
-            <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="p-3 bg-foodbev-platinum rounded-full">
+            <svg class="w-6 h-6 text-foodbev-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
             </svg>
           </div>
@@ -90,9 +90,19 @@
     <div v-if="!loading && !error" class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
       <!-- Application Trends -->
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-200">
-        <h2 class="text-lg font-semibold mb-4">Application Trends</h2>
-        <div class="h-40 flex items-center justify-center bg-gray-50 rounded">
-          <p class="text-gray-500">Chart coming soon</p>
+        <h2 class="text-lg font-semibold mb-4">Application Trends (Last 30 Days)</h2>
+        <div class="h-64">
+          <ClientOnly>
+            <v-chart v-if="trendsChartOptions" :option="trendsChartOptions" autoresize />
+            <div v-else class="flex items-center justify-center h-full">
+              <p class="text-gray-500">{{ loading ? 'Loading trends...' : 'No data available' }}</p>
+            </div>
+            <template #fallback>
+              <div class="flex items-center justify-center h-full">
+                <p class="text-gray-500">Initializing chart...</p>
+              </div>
+            </template>
+          </ClientOnly>
         </div>
       </div>
 
@@ -147,7 +157,7 @@
           <tbody>
             <tr v-for="(activity, index) in recentActivity" :key="index" class="border-b">
               <td class="py-2">
-                <span class="px-2 py-1 text-xs rounded bg-blue-100 text-blue-800">{{ activity.type }}</span>
+                <span class="px-2 py-1 text-xs rounded bg-foodbev-platinum text-foodbev-blue font-medium">{{ activity.type }}</span>
               </td>
               <td class="py-2">{{ activity.description }}</td>
               <td class="py-2">{{ formatDate(activity.date) }}</td>
@@ -175,11 +185,13 @@ const error = ref(null)
 const stats = ref({})
 const demographics = ref([])
 const recentActivity = ref([])
+const applicationTrends = ref([])
 
 // Initialize composable functions (will be set in onMounted for client-side only)
 let getDashboardStats = null
 let getDemographics = null
 let getRecentActivity = null
+let getApplicationTrends = null
 
 // ===== South Africa GeoJSON (simplified for demo) =====
 const saGeo = {
@@ -265,6 +277,133 @@ if (process.client) {
   echarts.registerMap('SouthAfrica', saGeo)
 }
 
+// Application Trends Chart Options
+const trendsChartOptions = computed(() => {
+  // Always return chart options, even with empty data
+  if (!applicationTrends.value || applicationTrends.value.length === 0) {
+    // Return empty chart configuration
+    return {
+      title: {
+        text: 'No Data Available',
+        left: 'center',
+        top: 'middle',
+        textStyle: {
+          color: '#999',
+          fontSize: 14
+        }
+      },
+      xAxis: { type: 'category', data: [] },
+      yAxis: { type: 'value', name: 'Applications' },
+      series: [{ type: 'line', data: [] }]
+    }
+  }
+
+  const dates = applicationTrends.value.map(t => {
+    const dateStr = t.date || t.Date
+    if (!dateStr) return ''
+    try {
+      const date = new Date(dateStr)
+      if (isNaN(date.getTime())) return dateStr
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+    } catch {
+      return dateStr
+    }
+  }).filter(d => d !== '')
+
+  const counts = applicationTrends.value.map(t => {
+    const count = t.count ?? t.Count ?? 0
+    return typeof count === 'number' ? count : parseInt(count) || 0
+  })
+
+  if (dates.length === 0 || counts.length === 0) {
+    return {
+      title: {
+        text: 'No Data Available',
+        left: 'center',
+        top: 'middle',
+        textStyle: {
+          color: '#999',
+          fontSize: 14
+        }
+      },
+      xAxis: { type: 'category', data: [] },
+      yAxis: { type: 'value', name: 'Applications' },
+      series: [{ type: 'line', data: [] }]
+    }
+  }
+
+  return {
+    tooltip: {
+      trigger: 'axis',
+      backgroundColor: 'rgba(0,0,0,0.7)',
+      textStyle: { color: '#fff' },
+      formatter: (params) => {
+        const param = params[0]
+        return `${param.name}<br/>Applications: ${param.value}`
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      top: '10%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: dates,
+      axisLine: {
+        lineStyle: {
+          color: '#221F72' // FoodBev Blue
+        }
+      }
+    },
+    yAxis: {
+      type: 'value',
+      name: 'Applications',
+      axisLine: {
+        lineStyle: {
+          color: '#221F72' // FoodBev Blue
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: '#D3D6D8' // FoodBev Platinum
+        }
+      }
+    },
+    series: [
+      {
+        name: 'Applications',
+        type: 'line',
+        smooth: true,
+        data: counts,
+        itemStyle: {
+          color: '#221F72' // FoodBev Blue
+        },
+        areaStyle: {
+          color: {
+            type: 'linear',
+            x: 0,
+            y: 0,
+            x2: 0,
+            y2: 1,
+            colorStops: [
+              { offset: 0, color: 'rgba(34, 31, 114, 0.3)' }, // FoodBev Blue with opacity
+              { offset: 1, color: 'rgba(34, 31, 114, 0.05)' }
+            ]
+          }
+        },
+        lineStyle: {
+          width: 3,
+          color: '#221F72' // FoodBev Blue
+        }
+      }
+    ]
+  }
+})
+
 // Chart options (computed from demographics data)
 const chartOptions = computed(() => {
   const maxValue = demographics.value.length > 0 
@@ -285,7 +424,7 @@ const chartOptions = computed(() => {
       realtime: false,
       calculable: true,
       inRange: {
-        color: ['#e6f7ff', '#0050b3'],
+        color: ['#D3D6D8', '#221F72'], // FoodBev Platinum to FoodBev Blue
       },
       orient: 'horizontal',
       left: 'center',
@@ -301,21 +440,21 @@ const chartOptions = computed(() => {
           fontSize: 10,
           color: '#333',
         },
-        itemStyle: {
-          areaColor: '#f0f0f0',
-          borderColor: '#666',
-          borderWidth: 1,
-        },
-        emphasis: {
-          label: {
-            show: true,
-            fontSize: 12,
-            fontWeight: 'bold',
-          },
           itemStyle: {
-            areaColor: '#0050b3',
+            areaColor: '#D3D6D8', // FoodBev Platinum
+            borderColor: '#221F72', // FoodBev Blue
+            borderWidth: 1,
           },
-        },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: 12,
+              fontWeight: 'bold',
+            },
+            itemStyle: {
+              areaColor: '#221F72', // FoodBev Blue
+            },
+          },
         data: demographics.value.map(d => ({
           name: d.province,
           value: d.count
@@ -326,7 +465,7 @@ const chartOptions = computed(() => {
 })
 
 const loadDashboardData = async () => {
-  if (!getDashboardStats || !getDemographics || !getRecentActivity) {
+  if (!getDashboardStats || !getDemographics || !getRecentActivity || !getApplicationTrends) {
     return // Wait for composables to be initialized
   }
 
@@ -352,6 +491,18 @@ const loadDashboardData = async () => {
     const activityResult = await getRecentActivity(10)
     if (activityResult.success) {
       recentActivity.value = activityResult.data || []
+    }
+
+    // Load application trends (last 30 days)
+    const trendsResult = await getApplicationTrends(30)
+    if (trendsResult.success) {
+      applicationTrends.value = trendsResult.data || []
+      console.log('✅ Loaded application trends:', applicationTrends.value)
+      console.log('✅ Trends count:', applicationTrends.value.length)
+    } else {
+      console.error('❌ Failed to load application trends:', trendsResult.error)
+      // Set empty array so chart still renders
+      applicationTrends.value = []
     }
   } catch (err) {
     error.value = 'Failed to load dashboard data'
@@ -379,6 +530,7 @@ onMounted(() => {
   getDashboardStats = adminComposables.getDashboardStats
   getDemographics = adminComposables.getDemographics
   getRecentActivity = adminComposables.getRecentActivity
+  getApplicationTrends = adminComposables.getApplicationTrends
   
   loadDashboardData()
 })

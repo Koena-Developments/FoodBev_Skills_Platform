@@ -69,5 +69,10 @@ namespace FoodBev.Application.Interfaces
         /// Gets recent activity feed.
         /// </summary>
         Task<IEnumerable<ActivityDto>> GetRecentActivityAsync(int limit = 50);
+
+        /// <summary>
+        /// Gets application trends grouped by date (last 30 days by default).
+        /// </summary>
+        Task<IEnumerable<ApplicationTrendDto>> GetApplicationTrendsAsync(int days = 30);
     }
 }

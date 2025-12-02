@@ -214,3 +214,11 @@ Invoke-WebRequest -Uri "http://localhost:5259/api/v1/candidate/profile" -Headers
 
 All endpoints are implemented and connected to the frontend! 🎉
 
+--------------------------------------------------------
+
+MULTI COLOURS IS ENCOURANGED FOR READABILITY
+
+
+
+automatically send a reminder email to candidates who have not completed their profile within 7 days of registration.
+as well as the employer 
